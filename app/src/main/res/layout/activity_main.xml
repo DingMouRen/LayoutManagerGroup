@@ -11,7 +11,7 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:elevation="5dp"
+        app:elevation="10dp"
         app:popupTheme="@style/OverflowMenuStyle"
         app:contentInsetStart="0dp"
         android:background="@android:color/black"
