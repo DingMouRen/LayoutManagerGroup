@@ -43,7 +43,7 @@ public class EchelonFragment extends Fragment {
     private void initData() {
         mLayoutManager = new EchelonLayoutManager(getContext());
         mTest = new Test(getContext());
-        mRecyclerView.setLayoutManager(mTest);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(new MyAdapter());
 
     }

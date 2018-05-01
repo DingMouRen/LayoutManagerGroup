@@ -89,7 +89,7 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
             int height = getDecoratedMeasuredHeight(item);
             Rect tmpRect = mAllItemRects.get(i);
             if (tmpRect == null) tmpRect = new Rect();
-            tmpRect.set(0,mTotalHeight,width,mTotalHeight+height);
+            tmpRect.set(0,mTotalHeight,width,mTotalHeight+getHorizontalSpace());
             mAllItemRects.put(i,tmpRect);//保存ItemView的位置信息
             mAllItemStates.put(i,false);//保存所有的ItemView为不可见状态
             mAllItemScales.put(i,1f);//保存ItemView的缩放大小
@@ -123,8 +123,9 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
             if (Rect.intersects(displayRect,mAllItemRects.get(i))){
                 View itemView = recycler.getViewForPosition(i);
 //                measureChildWithMargins(itemView,0,0);
-                measureChildWithExactlySize(itemView);
                 addView(itemView);
+                measureChildWithExactlySize(itemView);
+
                 Rect rect = mAllItemRects.get(i);
                 layoutDecoratedWithMargins(itemView,
                         rect.left,

@@ -85,7 +85,7 @@ public class Test extends RecyclerView.LayoutManager {
     //--------------------------------------------------------------
 
     private void fill(RecyclerView.Recycler recycler) {
-        int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemHeight);//>=1 初始值100
+        int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemHeight);//>=1 初始值100，floor取最小整数，但是类型是double类型
         int remainSpace = getVerticalSpace() - mItemHeight;//固定值774
 
         int bottomItemVisibleSize = mScrollOffset % mItemHeight;//初始值0,最下面的item，可见的高度
