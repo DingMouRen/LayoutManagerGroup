@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.dingmouren.example.layoutmanagergroup.MyApplication;
 import com.dingmouren.example.layoutmanagergroup.R;
+import com.dingmouren.layoutmanagergroup.Test;
 import com.dingmouren.layoutmanagergroup.echelon.EchelonLayoutManager;
 
 /**
@@ -24,6 +25,7 @@ import com.dingmouren.layoutmanagergroup.echelon.EchelonLayoutManager;
 public class EchelonFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private EchelonLayoutManager mLayoutManager;
+    private Test mTest;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,7 +42,8 @@ public class EchelonFragment extends Fragment {
 
     private void initData() {
         mLayoutManager = new EchelonLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mTest = new Test(getContext());
+        mRecyclerView.setLayoutManager(mTest);
         mRecyclerView.setAdapter(new MyAdapter());
 
     }
@@ -67,7 +70,7 @@ public class EchelonFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 20;
+            return 100;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
