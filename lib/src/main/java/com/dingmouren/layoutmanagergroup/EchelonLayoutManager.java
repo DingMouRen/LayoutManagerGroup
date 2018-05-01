@@ -1,18 +1,12 @@
-package com.dingmouren.layoutmanagergroup.echelon;
+package com.dingmouren.layoutmanagergroup;
 
 import android.content.Context;
-import android.graphics.PointF;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 

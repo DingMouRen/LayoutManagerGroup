@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private TextView mTvTitle;
     private Toolbar mToolbar;
     private FragmentManager mFragmentManager;
@@ -37,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
 
         initFragments();
+        mToolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.e(TAG,"toolbar-y:"+mToolbar.getY()+"  高度："+mToolbar.getHeight());
+                mToolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
     }
 
     private void initFragments() {
