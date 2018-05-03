@@ -39,6 +39,12 @@
         android:background="@android:color/background_dark"
         android:layout_marginLeft="19dp"
         />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="288px"
+        android:background="@android:color/background_dark"
+        android:layout_marginLeft="79dp"
+        />
 </RelativeLayout>
 
 

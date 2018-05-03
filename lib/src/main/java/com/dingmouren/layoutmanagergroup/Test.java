@@ -23,10 +23,10 @@ public class Test extends RecyclerView.LayoutManager {
     private int mItemWidth;
     private int mItemHeight;
     private int mBetweenHeight;
+    private int mItemCount;
     private int mScrollOffset = INVALIDATE_SCROLL_OFFSET;
     private float mItemHeightWidthRatio;//childview的纵横比。所有childview都会按该纵横比展示
     private float mScale;//chidview每一层级相对于上一层级的缩放量
-    private int mItemCount;
     private float mVanishOffset = 0;//vanish消失
     private Interpolator mInterpolator;//插值器
     private Context mContext;
@@ -58,11 +58,11 @@ public class Test extends RecyclerView.LayoutManager {
         if (state.getItemCount() == 0 || state.isPreLayout()) return; //sate.isPreLayout()正在测量视图
         removeAndRecycleAllViews(recycler);
 
-        mItemWidth = getHorizontalSpace();//item的宽
-        mItemHeight = (int) (mItemHeightWidthRatio * mItemWidth);//item的高
+        mItemWidth = (int) (getHorizontalSpace() * 0.87f);//item的宽
+        mItemHeight = (int) (mItemWidth * 1.46f);//item的高
         mBetweenHeight = (int) (mItemHeight * 0.5f);//初始值间隔 540
         mItemCount = getItemCount();
-        mScrollOffset = makeScrollOffsetWithinRange(mScrollOffset);//初始值：100个  1080 * 100
+        mScrollOffset = makeScrollOffsetWithinRange(mScrollOffset);//初始值：100个  1080 * 100   mItemHeight, scrollOffset取最大, mItemCount * mItemHeight然后取最小
 
         fill(recycler);
     }
@@ -83,25 +83,25 @@ public class Test extends RecyclerView.LayoutManager {
 
 
     //--------------------------------------------------------------
-
+    private int count = 4;
     private void fill(RecyclerView.Recycler recycler) {
         int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemHeight);//>=1 初始值100，floor取最小整数，但是类型是double类型
         int remainSpace = getVerticalSpace() - mItemHeight;//固定值774
 
         int bottomItemVisibleSize = mScrollOffset % mItemHeight;//初始值0,最下面的item，可见的高度
-        final float offsetPercent = mInterpolator.getInterpolation(bottomItemVisibleSize * 1.0f / mItemHeight);//[0,1) 初始值0，最下面item可见高度的比例
-
+        final float offsetPercent = bottomItemVisibleSize * 1.0f / mItemHeight;//[0,1) 初始值0，最下面item可见高度的比例
 
         ArrayList<ItemLayoutInfo> layoutInfos = new ArrayList<>();
         for (int i = bottomItemPosition - 1, j = 1; i >= 0; i--, j++) {
-            double maxOffset = mBetweenHeight * Math.pow(mScale, j);//mScale初始值0.9, mScale^j
+            Log.e(TAG,"i:"+i);
+//            double maxOffset = mBetweenHeight * Math.pow(mScale, j);//mScale初始值0.9, mScale^j
+            double maxOffset = (getVerticalSpace() - mItemHeight)/count* Math.pow(mScale, j) ;//mScale初始值0.9, mScale^j
             int start = (int) (remainSpace - offsetPercent * maxOffset);// space - mItemHeight,99个itemHeight
             float scaleXY = (float) (Math.pow(mScale, j - 1) * (1 - offsetPercent * (1 - mScale)));
             float positonOffset = offsetPercent;
             float layoutPercent = start * 1.0f / getVerticalSpace();
             ItemLayoutInfo info = new ItemLayoutInfo(start, scaleXY, positonOffset, layoutPercent);
             layoutInfos.add(0, info);
-
             remainSpace = (int) (remainSpace - maxOffset);
             if (remainSpace <= 0) {
                 info.start = (int) (remainSpace + maxOffset);
@@ -114,8 +114,7 @@ public class Test extends RecyclerView.LayoutManager {
 
         if (bottomItemPosition < mItemCount) {
             final int start = getVerticalSpace() - bottomItemVisibleSize;
-            layoutInfos.add(new ItemLayoutInfo(start, 1.0f,
-                    bottomItemVisibleSize * 1.0f / mItemHeight, start * 1.0f / getVerticalSpace()).
+            layoutInfos.add(new ItemLayoutInfo(start, 1.0f, bottomItemVisibleSize * 1.0f / mItemHeight, start * 1.0f / getVerticalSpace()).
                     setIsBottom());
         } else {
             bottomItemPosition = bottomItemPosition - 1;//99
@@ -125,7 +124,7 @@ public class Test extends RecyclerView.LayoutManager {
         final int startPos = bottomItemPosition - (layoutCount - 1);
         final int endPos = bottomItemPosition;
         final int childCount = getChildCount();
-        Log.e(TAG,"startPos:"+startPos+" endPos:"+endPos+" childCount:"+childCount);
+//        Log.e(TAG,"startPos:"+startPos+" endPos:"+endPos+" childCount:"+childCount);
         for (int i = childCount - 1; i >= 0; i--) {//回收
             View childView = getChildAt(i);
             int pos = getPosition(childView);
@@ -144,7 +143,10 @@ public class Test extends RecyclerView.LayoutManager {
     private void fillChild(View view, ItemLayoutInfo layoutInfo) {
         addView(view);
         measureChildWithExactlySize(view);
-        layoutDecoratedWithMargins(view, 0, layoutInfo.start,  mItemWidth, layoutInfo.start + mItemHeight );
+        int left = (getHorizontalSpace() - mItemWidth)/2;
+        layoutDecoratedWithMargins(view, left, layoutInfo.start,  left + mItemWidth, layoutInfo.start + mItemHeight );
+        view.setPivotX(view.getWidth()/2);
+        view.setPivotY(0);
         ViewCompat.setScaleX(view, layoutInfo.scaleXY);//控制缩放
         ViewCompat.setScaleY(view, layoutInfo.scaleXY);
     }
