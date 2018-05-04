@@ -72,6 +72,7 @@ public class Test extends RecyclerView.LayoutManager {
         int pendingScrollOffset = mScrollOffset + dy;
         mScrollOffset = Math.min(Math.max(mItemHeight, pendingScrollOffset), mItemCount * mItemHeight);
         fill(recycler);
+        Log.e(TAG,"dy:"+dy+" 实际的滑动距离："+(mScrollOffset - pendingScrollOffset + dy));
         return mScrollOffset - pendingScrollOffset + dy;
     }
 
