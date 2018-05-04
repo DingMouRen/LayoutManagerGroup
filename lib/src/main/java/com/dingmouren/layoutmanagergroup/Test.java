@@ -142,7 +142,7 @@ public class Test extends RecyclerView.LayoutManager {
 
     private void fillChild(View view, ItemLayoutInfo layoutInfo) {
         addView(view);
-        measureChildWithExactlySize(view);
+         measureChildWithExactlySize(view);
         int left = (getHorizontalSpace() - mItemWidth)/2;
         layoutDecoratedWithMargins(view, left, layoutInfo.start,  left + mItemWidth, layoutInfo.start + mItemHeight );
         view.setPivotX(view.getWidth()/2);
