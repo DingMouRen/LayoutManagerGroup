@@ -88,7 +88,7 @@ public class Test extends RecyclerView.LayoutManager {
         int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemHeight);//>=1 初始值100，floor取最小整数，但是类型是double类型
         int remainSpace = getVerticalSpace() - mItemHeight;//固定值774
 
-        int bottomItemVisibleSize = mScrollOffset % mItemHeight;//初始值0,最下面的item，可见的高度
+        int bottomItemVisibleSize = mScrollOffset % mItemHeight;//初始值0,最下面的item，可见的高度[0,mItemHeight]
         final float offsetPercent = mInterpolator.getInterpolation(bottomItemVisibleSize * 1.0f / mItemHeight);//[0,1) 初始值0，最下面item可见高度的比例
 
 
@@ -114,9 +114,8 @@ public class Test extends RecyclerView.LayoutManager {
 
         if (bottomItemPosition < mItemCount) {
             final int start = getVerticalSpace() - bottomItemVisibleSize;
-            layoutInfos.add(new ItemLayoutInfo(start, 1.0f,
-                    bottomItemVisibleSize * 1.0f / mItemHeight, start * 1.0f / getVerticalSpace()).
-                    setIsBottom());
+            layoutInfos.add(new ItemLayoutInfo(start, 1.0f, bottomItemVisibleSize * 1.0f / mItemHeight, start * 1.0f / getVerticalSpace())
+                    .setIsBottom());
         } else {
             bottomItemPosition = bottomItemPosition - 1;//99
         }
