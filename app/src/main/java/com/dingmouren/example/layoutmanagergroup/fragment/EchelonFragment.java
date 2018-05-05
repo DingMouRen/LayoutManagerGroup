@@ -43,7 +43,7 @@ public class EchelonFragment extends Fragment {
     private void initData() {
         mLayoutManager = new EchelonLayoutManager(getContext());
         mTest = new Test(getContext());
-        mRecyclerView.setLayoutManager(mTest);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(new MyAdapter());
 
     }
@@ -70,7 +70,7 @@ public class EchelonFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 100;
+            return 20;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
