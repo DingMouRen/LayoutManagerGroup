@@ -8,8 +8,9 @@ import android.view.View;
 import java.util.ArrayList;
 
 /**
- * Created by thunderPunch on 2017/2/15
- * Description:
+ * Created by 钉某人
+ * github: https://github.com/DingMouRen
+ * email: naildingmouren@gmail.com
  */
 
 public class EchelonLayoutManager extends RecyclerView.LayoutManager {
@@ -37,7 +38,7 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if (state.getItemCount() == 0 || state.isPreLayout()) return; //sate.isPreLayout()正在测量视图
+        if (state.getItemCount() == 0 || state.isPreLayout()) return;
         removeAndRecycleAllViews(recycler);
 
         mItemViewWidth = (int) (getHorizontalSpace() * 0.87f);
@@ -64,34 +65,35 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
 
 
     private void layoutChild(RecyclerView.Recycler recycler) {
+        if (getItemCount() == 0 ) return;
         int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemViewHeight);
         int remainSpace = getVerticalSpace() - mItemViewHeight;
 
-        int bottomItemVisibleSize = mScrollOffset % mItemViewHeight;
-        final float offsetPercent = bottomItemVisibleSize * 1.0f / mItemViewHeight;//[0,1) 初始值0，最下面item可见高度的比例
+        int bottomItemVisibleHeight = mScrollOffset % mItemViewHeight;
+        final float offsetPercentRelativeToItemView = bottomItemVisibleHeight * 1.0f / mItemViewHeight;
 
         ArrayList<ItemViewInfo> layoutInfos = new ArrayList<>();
         for (int i = bottomItemPosition - 1, j = 1; i >= 0; i--, j++) {
-            double maxOffset = (getVerticalSpace() - mItemViewHeight) / 2 * Math.pow(0.8, j);//mScale初始值0.9, mScale^j
-            int start = (int) (remainSpace - offsetPercent * maxOffset);// space - mItemHeight,99个itemHeight
-            float scaleXY = (float) (Math.pow(mScale, j - 1) * (1 - offsetPercent * (1 - mScale)));
-            float positonOffset = offsetPercent;
+            double maxOffset = (getVerticalSpace() - mItemViewHeight) / 2 * Math.pow(0.8, j);
+            int start = (int) (remainSpace - offsetPercentRelativeToItemView * maxOffset);
+            float scaleXY = (float) (Math.pow(mScale, j - 1) * (1 - offsetPercentRelativeToItemView * (1 - mScale)));
+            float positonOffset = offsetPercentRelativeToItemView;
             float layoutPercent = start * 1.0f / getVerticalSpace();
             ItemViewInfo info = new ItemViewInfo(start, scaleXY, positonOffset, layoutPercent);
             layoutInfos.add(0, info);
             remainSpace = (int) (remainSpace - maxOffset);
             if (remainSpace <= 0) {
-                info.mTop = (int) (remainSpace + maxOffset);
-                info.positionOffsetPercent = 0;
-                info.layoutPercent = info.mTop / getVerticalSpace();
-                info.mScaleXY = (float) Math.pow(mScale, j - 1);
+                info.setTop((int) (remainSpace + maxOffset));
+                info.setPositionOffset(0);
+                info.setLayoutPercent(info.getTop() / getVerticalSpace());
+                info.setScaleXY((float) Math.pow(mScale, j - 1)); ;
                 break;
             }
         }
 
         if (bottomItemPosition < mItemCount) {
-            final int start = getVerticalSpace() - bottomItemVisibleSize;
-            layoutInfos.add(new ItemViewInfo(start, 1.0f, bottomItemVisibleSize * 1.0f / mItemViewHeight, start * 1.0f / getVerticalSpace())
+            final int start = getVerticalSpace() - bottomItemVisibleHeight;
+            layoutInfos.add(new ItemViewInfo(start, 1.0f, bottomItemVisibleHeight * 1.0f / mItemViewHeight, start * 1.0f / getVerticalSpace())
                     .setIsBottom());
         } else {
             bottomItemPosition = bottomItemPosition - 1;//99
@@ -101,7 +103,7 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
         final int startPos = bottomItemPosition - (layoutCount - 1);
         final int endPos = bottomItemPosition;
         final int childCount = getChildCount();
-        for (int i = childCount - 1; i >= 0; i--) {//回收
+        for (int i = childCount - 1; i >= 0; i--) {
             View childView = getChildAt(i);
             int pos = getPosition(childView);
             if (pos > endPos || pos < startPos) {
@@ -117,11 +119,13 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
             addView(view);
             measureChildWithExactlySize(view);
             int left = (getHorizontalSpace() - mItemViewWidth) / 2;
-            layoutDecoratedWithMargins(view, left, layoutInfo.mTop, left + mItemViewWidth, layoutInfo.mTop + mItemViewHeight);
+            layoutDecoratedWithMargins(view, left, layoutInfo.getTop(), left + mItemViewWidth, layoutInfo.getTop() + mItemViewHeight);
             view.setPivotX(view.getWidth() / 2);
             view.setPivotY(0);
-            ViewCompat.setScaleX(view, layoutInfo.mScaleXY);//控制缩放
-            ViewCompat.setScaleY(view, layoutInfo.mScaleXY);
+            view.setScaleX(layoutInfo.getScaleXY());
+            view.setScaleY(layoutInfo.getScaleXY());
+//            ViewCompat.setScaleX(view, layoutInfo.getScaleXY());//控制缩放
+//            ViewCompat.setScaleY(view, layoutInfo.getScaleXY());
         }
     }
 
@@ -129,17 +133,15 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
      * 测量itemview的确切大小
      * @param child
      */
-    private void measureChildWithExactlySize(View child) {
+    private void measureChildWithExactlySize(View child ) {
         RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) child.getLayoutParams();
-        final int widthSpec = View.MeasureSpec.makeMeasureSpec(
-                getHorizontalSpace() - lp.leftMargin - lp.rightMargin, View.MeasureSpec.EXACTLY);
-        final int heightSpec = View.MeasureSpec.makeMeasureSpec(
-                getHorizontalSpace() - lp.topMargin - lp.bottomMargin, View.MeasureSpec.EXACTLY);
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(mItemViewWidth, View.MeasureSpec.EXACTLY);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(mItemViewHeight, View.MeasureSpec.EXACTLY);
         child.measure(widthSpec, heightSpec);
     }
 
     /**
-     * 获取item在竖直方向上可以显示的距离
+     * 获取RecyclerView的显示高度
      *
      * @return
      */
@@ -148,7 +150,7 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
     }
 
     /**
-     * 获取item在水平方向上可以显示的距离
+     * 获取RecyclerView的显示宽度
      *
      * @return
      */
@@ -156,26 +158,5 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
         return getWidth() - getPaddingLeft() - getPaddingRight();
     }
 
-
-    private static class ItemViewInfo {
-        float mScaleXY;
-        float layoutPercent;
-        float positionOffsetPercent;
-        int mTop;
-        boolean mIsBottom;
-
-        private ItemViewInfo(int top, float scale, float positonOffset, float percent) {
-            this.mTop = top;
-            this.mScaleXY = scale;
-            this.positionOffsetPercent = positonOffset;
-            this.layoutPercent = percent;
-        }
-
-        private ItemViewInfo setIsBottom() {
-            mIsBottom = true;
-            return this;
-        }
-
-    }
 }
 

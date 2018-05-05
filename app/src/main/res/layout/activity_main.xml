@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:elevation="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:popupTheme="@style/OverflowMenuStyle"
         app:contentInsetStart="0dp"
         android:background="@android:color/black"
@@ -33,19 +33,7 @@
         android:id="@+id/container_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <View
-        android:layout_width="1dp"
-        android:layout_height="774px"
-        android:background="@android:color/background_dark"
-        android:layout_marginLeft="19dp"
-        />
-    <View
-        android:layout_width="1dp"
-        android:layout_height="288px"
-        android:background="@android:color/background_dark"
-        android:layout_marginLeft="79dp"
-        />
-</RelativeLayout>
+</LinearLayout>
 
 
 

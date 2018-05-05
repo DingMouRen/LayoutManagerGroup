@@ -19,13 +19,18 @@ import com.dingmouren.example.layoutmanagergroup.fragment.EchelonFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Created by 钉某人
+ * github: https://github.com/DingMouRen
+ * email: naildingmouren@gmail.com
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private TextView mTvTitle;
     private Toolbar mToolbar;
     private FragmentManager mFragmentManager;
-    private List<Fragment> mFragments = new ArrayList<>();//存储所有的Fragment
+    private List<Fragment> mFragments = new ArrayList<>();//存储所有的Fragment对象
+    private List<String> mManageNames = new ArrayList<>();//存储与Fragment对应的LayoutManager的名称
 
     private Fragment mCurrentFragment;
 
@@ -40,24 +45,19 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
 
         initFragments();
-        mToolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Log.e(TAG,"toolbar-y:"+mToolbar.getY()+"  高度："+mToolbar.getHeight());
-                mToolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
 
     }
 
     private void initFragments() {
         EchelonFragment echelonFragment = new EchelonFragment();//梯形布局
         mFragments.add(echelonFragment);
+        mManageNames.add("EchelonLayoutManager");
 
         mFragmentManager.beginTransaction()
                 .replace(R.id.container_layout, mFragments.get(0))
                 .commit();
         mCurrentFragment = mFragments.get(0);
+        mTvTitle.setText(mManageNames.get(0));
     }
 
 
@@ -84,5 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 .show(mFragments.get(position))
                 .commit();
         mCurrentFragment = mFragments.get(position);
+        mTvTitle.setText(mManageNames.get(position));
     }
 }
