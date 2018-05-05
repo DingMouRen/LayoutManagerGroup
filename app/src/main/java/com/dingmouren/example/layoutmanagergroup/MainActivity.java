@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.container_layout, mFragments.get(0))
                 .commit();
         mCurrentFragment = mFragments.get(0);
-        mTvTitle.setText(mManageNames.get(0));
+        mTvTitle.setText("LayoutManagerGroup");
+//        mTvTitle.setText(mManageNames.get(0));
     }
 
 
