@@ -1,1 +1,1 @@
-![layout_1](https://github.com/DingMouRen/LayoutManager/raw/master/gif/layout_1.gif)
+![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/gif/layout_1.gif)
