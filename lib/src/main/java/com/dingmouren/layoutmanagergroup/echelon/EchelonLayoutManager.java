@@ -124,8 +124,6 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
             view.setPivotY(0);
             view.setScaleX(layoutInfo.getScaleXY());
             view.setScaleY(layoutInfo.getScaleXY());
-//            ViewCompat.setScaleX(view, layoutInfo.getScaleXY());//控制缩放
-//            ViewCompat.setScaleY(view, layoutInfo.getScaleXY());
         }
     }
 
