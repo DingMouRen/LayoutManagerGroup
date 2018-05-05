@@ -30,4 +30,5 @@ dependencies {
     /*第三方库*/
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation project(':LayoutManagerGroup')
+//    implementation 'com.dingmouren.recyclerview:LayoutManagerGroup:1.0.1'
 }
