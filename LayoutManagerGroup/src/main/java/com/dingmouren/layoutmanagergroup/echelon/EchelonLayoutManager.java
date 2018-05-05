@@ -1,7 +1,6 @@
 package com.dingmouren.layoutmanagergroup.echelon;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -129,7 +128,6 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
 
     /**
      * 测量itemview的确切大小
-     * @param child
      */
     private void measureChildWithExactlySize(View child ) {
         RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) child.getLayoutParams();
@@ -140,8 +138,6 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
 
     /**
      * 获取RecyclerView的显示高度
-     *
-     * @return
      */
     public int getVerticalSpace() {
         return getHeight() - getPaddingTop() - getPaddingBottom();
@@ -149,8 +145,6 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
 
     /**
      * 获取RecyclerView的显示宽度
-     *
-     * @return
      */
     public int getHorizontalSpace() {
         return getWidth() - getPaddingLeft() - getPaddingRight();
