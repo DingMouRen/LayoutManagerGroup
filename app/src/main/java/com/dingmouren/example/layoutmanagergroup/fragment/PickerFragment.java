@@ -4,7 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,7 @@ import com.dingmouren.layoutmanagergroup.picker.PickerLayoutManager;
 
 
 public class PickerFragment extends Fragment implements PickerLayoutManager.onScrollStopListener {
-
+    private static final String TAG = "PickerFragment";
     private RecyclerView mRecyclerView;
     private PickerLayoutManager mPickerLayoutManager;
 
@@ -39,7 +41,7 @@ public class PickerFragment extends Fragment implements PickerLayoutManager.onSc
     private void initView(View rootView) {
         mRecyclerView = rootView.findViewById(R.id.recycler);
 
-        mPickerLayoutManager = new PickerLayoutManager(getContext(), PickerLayoutManager.VERTICAL, false,mRecyclerView);
+        mPickerLayoutManager = new PickerLayoutManager(getContext(), PickerLayoutManager.VERTICAL, false,mRecyclerView,3);
         mRecyclerView.setLayoutManager(mPickerLayoutManager);
         mRecyclerView.setAdapter(new MyAdapter());
 

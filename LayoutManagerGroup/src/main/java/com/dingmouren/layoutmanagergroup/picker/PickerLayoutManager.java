@@ -26,17 +26,30 @@ public class PickerLayoutManager extends LinearLayoutManager {
     private int mItemViewWidth;
     private int mItemViewHeight;
     private RecyclerView mRecyclerView;
-    private int mItemCount;
-    public PickerLayoutManager(Context context, int orientation, boolean reverseLayout,RecyclerView recyclerView) {
+    private int mItemCount = -1;
+    public PickerLayoutManager(Context context, int orientation, boolean reverseLayout,RecyclerView recyclerView,int itemCount) {
         super(context, orientation, reverseLayout);
         this.mLinearSnapHelper = new LinearSnapHelper();
         this.mRecyclerView = recyclerView;
+        this.mItemCount = itemCount;
+        setAutoMeasureEnabled(false);
     }
 
     @Override
     public void onAttachedToWindow(RecyclerView view) {
         super.onAttachedToWindow(view);
         mLinearSnapHelper.attachToRecyclerView(view);
+    }
+
+    @Override
+    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+//        super.onMeasure(recycler, state, widthSpec, heightSpec);
+        if (getItemCount() == 0) return;
+        View view = recycler.getViewForPosition(0);
+        measureChild(view, widthSpec, heightSpec);
+        int measuredWidth = View.MeasureSpec.getSize(widthSpec);
+        int measuredHeight = view.getMeasuredHeight();
+        setMeasuredDimension(measuredWidth, measuredHeight*3);
     }
 
     @Override
@@ -48,7 +61,8 @@ public class PickerLayoutManager extends LinearLayoutManager {
         measureChildWithMargins(child,0,0);
         mItemViewWidth = getDecoratedMeasuredWidth(child);
         mItemViewHeight = getDecoratedMeasuredHeight(child);
-        Log.e(TAG,"itemWidth:"+mItemViewWidth+" itemHeight:"+mItemViewHeight);
+        Log.e(TAG,"onLayoutChildren  itemWidth:"+mItemViewWidth+" itemHeight:"+mItemViewHeight);
+
 
       /*  int orientation = getOrientation();
         if (orientation == HORIZONTAL){
@@ -109,15 +123,6 @@ public class PickerLayoutManager extends LinearLayoutManager {
         super.onScrollStateChanged(state);
         if (state == 0) {
             if (onScrollStopListener != null && mLinearSnapHelper != null) {
-               /* int selected = 0;
-                float lastHeight = 0f;
-                for (int i = 0; i < getChildCount(); i++) {
-                    if (lastHeight < getChildAt(i).getScaleY()) {
-                        lastHeight = getChildAt(i).getScaleY();
-                        selected = i;
-                    }
-                }
-                onScrollStopListener.selectedView(getChildAt(selected));*/
                 View view = mLinearSnapHelper.findSnapView(this);
                 int position = getPosition(view);
                 Log.e(TAG, "position:" + position);
@@ -129,6 +134,7 @@ public class PickerLayoutManager extends LinearLayoutManager {
     @Override
     public void onLayoutCompleted(RecyclerView.State state) {
         Log.e(TAG,"onLayoutCompleted");
+       /* Log.e(TAG,"onLayoutCompleted");
         super.onLayoutCompleted(state);
         if (mRecyclerView == null) return;
         ViewGroup.LayoutParams layoutParams = mRecyclerView.getLayoutParams();
@@ -137,21 +143,13 @@ public class PickerLayoutManager extends LinearLayoutManager {
             layoutParams.width = mItemViewWidth * mItemCount;
             Log.e(TAG,"horizontal--width:"+layoutParams.width+"  height:"+layoutParams.height+"    "+mItemViewWidth * mItemCount);
             mRecyclerView.setLayoutParams(layoutParams);
-//            mRecyclerView.invalidate();
         }else if (orientation == VERTICAL){
             layoutParams.height = mItemViewHeight * mItemCount;
             Log.e(TAG,"vetical--width:"+layoutParams.width+"  height:"+layoutParams.height+"    "+mItemViewHeight * mItemCount);
             mRecyclerView.setLayoutParams(layoutParams);
-//            mRecyclerView.invalidate();
-        }
+        }*/
     }
 
-    public void setItemCount(int itemCount){
-        this.mItemCount = itemCount;
-        Log.e(TAG,"setItemCount");
-
-
-    }
 
     public float getScaleDownBy() {
         return scaleDownBy;
