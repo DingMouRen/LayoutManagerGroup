@@ -2,10 +2,7 @@
 
 | 效果 | 如何使用 |
 | :----: | :---:|
-|![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_1.gif) | 
-```
-mRecyclerView.setLayoutManager(new EchelonLayoutManager(getContext()));
-```|
+|![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_1.gif) | mRecyclerView.setLayoutManager(new EchelonLayoutManager(getContext()));|
 
 
 
