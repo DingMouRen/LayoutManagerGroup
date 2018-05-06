@@ -59,13 +59,12 @@ public class MainActivity extends AppCompatActivity {
         mManageNames.add("PickerLayoutManager");
 
         mFragmentManager.beginTransaction()
-                .replace(R.id.container_layout, mFragments.get(0))
+                .add(R.id.container_layout, mFragments.get(0))
                 .add(R.id.container_layout,mFragments.get(1))
                 .hide(mFragments.get(1))
                 .show(mFragments.get(0))
                 .commit();
         mCurrentFragment = mFragments.get(0);
-        mTvTitle.setText("LayoutManagerGroup");
         mTvTitle.setText(mManageNames.get(0));
     }
 
