@@ -29,5 +29,6 @@ dependencies {
     implementation 'com.android.support:design:26.0.2'
     /*第三方库*/
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-        implementation project(':LayoutManagerGroup')
+//        implementation project(':LayoutManagerGroup')
+    implementation 'com.github.DingMouRen:LayoutManagerGroup:e59c3fa3ca'
 }
