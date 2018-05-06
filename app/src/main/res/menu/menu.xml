@@ -5,4 +5,8 @@
         android:title="EchelonLayoutManager"
         app:showAsAction="never"
         />
+    <item android:id="@+id/item_1"
+        android:title="PickerLayoutManager"
+        app:showAsAction="never"
+        />
 </menu>

@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.dingmouren.example.layoutmanagergroup.fragment.EchelonFragment;
+import com.dingmouren.example.layoutmanagergroup.fragment.PickerFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +54,19 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(echelonFragment);
         mManageNames.add("EchelonLayoutManager");
 
+        PickerFragment pickerFragment = new PickerFragment();//选择器布局
+        mFragments.add(pickerFragment);
+        mManageNames.add("PickerLayoutManager");
+
         mFragmentManager.beginTransaction()
                 .replace(R.id.container_layout, mFragments.get(0))
+                .add(R.id.container_layout,mFragments.get(1))
+                .hide(mFragments.get(1))
+                .show(mFragments.get(0))
                 .commit();
         mCurrentFragment = mFragments.get(0);
         mTvTitle.setText("LayoutManagerGroup");
-//        mTvTitle.setText(mManageNames.get(0));
+        mTvTitle.setText(mManageNames.get(0));
     }
 
 
@@ -74,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item_0:
                 switchFragment(0);
                 break;
+            case R.id.item_1:
+                switchFragment(1);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
