@@ -24,7 +24,7 @@ import com.dingmouren.layoutmanagergroup.picker.PickerLayoutManager;
  */
 
 
-public class PickerFragment extends Fragment implements PickerLayoutManager.onScrollStopListener {
+public class PickerFragment extends Fragment implements PickerLayoutManager.OnSelectedViewListener {
     private static final String TAG = "PickerFragment";
     private RecyclerView mRecyclerView;
     private PickerLayoutManager mPickerLayoutManager;
@@ -41,18 +41,18 @@ public class PickerFragment extends Fragment implements PickerLayoutManager.onSc
     private void initView(View rootView) {
         mRecyclerView = rootView.findViewById(R.id.recycler);
 
-        mPickerLayoutManager = new PickerLayoutManager(getContext(), PickerLayoutManager.HORIZONTAL, false,0);
+        mPickerLayoutManager = new PickerLayoutManager(getContext(),mRecyclerView, PickerLayoutManager.HORIZONTAL, false,3);
         mRecyclerView.setLayoutManager(mPickerLayoutManager);
         mRecyclerView.setAdapter(new MyAdapter());
 
     }
 
     private void initListener(){
-        mPickerLayoutManager.setOnScrollStopListener(this);
+        mPickerLayoutManager.OnSelectedViewListener(this);
     }
 
     @Override
-    public void selectedView(View view) {
+    public void onSelectedView(View view) {
         TextView textView = (TextView) view;
         Toast.makeText(MyApplication.sContext,textView.getText(),Toast.LENGTH_SHORT).show();
     }
@@ -69,12 +69,11 @@ public class PickerFragment extends Fragment implements PickerLayoutManager.onSc
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.tvText.setText(position+"");
-            holder.tvText.setBackgroundColor(mColors[position%2]);
         }
 
         @Override
         public int getItemCount() {
-            return 100;
+            return 30;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder{

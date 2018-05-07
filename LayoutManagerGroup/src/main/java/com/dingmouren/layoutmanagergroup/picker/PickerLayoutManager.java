@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by 钉某人
@@ -18,18 +19,28 @@ import android.view.ViewGroup;
 public class PickerLayoutManager extends LinearLayoutManager {
     private static final String TAG = "PickerLayoutManager";
 
-    private float scaleDownBy = 0.66f;
-    private float scaleDownDistance = 0.9f;
-    private boolean changeAlpha = false;
+    private float mScale = 0.5f;
+    private boolean mIsAlpha = true;
     private LinearSnapHelper mLinearSnapHelper;
-    private onScrollStopListener onScrollStopListener;
+    private OnSelectedViewListener mOnSelectedViewListener;
     private int mItemViewWidth;
     private int mItemViewHeight;
     private int mItemCount = -1;
-    public PickerLayoutManager(Context context, int orientation, boolean reverseLayout,int itemCount) {
+    private RecyclerView mRecyclerView;
+    private int mOrientation;
+
+    public PickerLayoutManager(Context context, int orientation, boolean reverseLayout) {
+        super(context, orientation, reverseLayout);
+        this.mLinearSnapHelper = new LinearSnapHelper();
+        this.mOrientation = orientation;
+    }
+
+    public PickerLayoutManager(Context context, RecyclerView recyclerView, int orientation, boolean reverseLayout, int itemCount) {
         super(context, orientation, reverseLayout);
         this.mLinearSnapHelper = new LinearSnapHelper();
         this.mItemCount = itemCount;
+        this.mOrientation = orientation;
+        this.mRecyclerView = recyclerView;
         if (mItemCount != 0) setAutoMeasureEnabled(false);
     }
 
@@ -42,18 +53,29 @@ public class PickerLayoutManager extends LinearLayoutManager {
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         if (getItemCount() != 0 && mItemCount != 0) {
+
             View view = recycler.getViewForPosition(0);
-            measureChild(view, widthSpec, heightSpec);
-            int measuredWidth = View.MeasureSpec.getSize(widthSpec);
-            int measuredHeight = view.getMeasuredHeight();
-            int orientation = getOrientation();
-            if (orientation == HORIZONTAL) {
-                setMeasuredDimension(measuredWidth * mItemCount, measuredHeight);
-            } else if (orientation == VERTICAL) {
-                setMeasuredDimension(measuredWidth, measuredHeight * mItemCount);
+            measureChildWithMargins(view, widthSpec, heightSpec);
+
+            mItemViewWidth = view.getMeasuredWidth();
+            mItemViewHeight = view.getMeasuredHeight();
+
+            if (mOrientation == HORIZONTAL) {
+                int paddingHorizontal = (mItemCount - 1) / 2 * mItemViewWidth;
+                mRecyclerView.setClipToPadding(false);
+                mRecyclerView.setPadding(paddingHorizontal,0,paddingHorizontal,0);
+                setMeasuredDimension(mItemViewWidth * mItemCount, mItemViewHeight);
+                Log.e(TAG,"onMeasure--mItemCount不为0--recyclerview--横向--width:"+mItemViewWidth*mItemCount+" height:"+mItemViewHeight);
+            } else if (mOrientation == VERTICAL) {
+                int paddingVertical = (mItemCount - 1) / 2 * mItemViewHeight;
+                mRecyclerView.setClipToPadding(false);
+                mRecyclerView.setPadding(0,paddingVertical,0,paddingVertical);
+                setMeasuredDimension(mItemViewWidth, mItemViewHeight * mItemCount);
+                Log.e(TAG,"onMeasure--mItemCount不为0--recyclerview--竖向--width:"+mItemViewWidth+" height:"+mItemViewHeight*mItemCount);
             }
         }else {
             super.onMeasure(recycler,state,widthSpec,heightSpec);
+            Log.e(TAG,"onMeasure默认");
         }
 
     }
@@ -63,17 +85,9 @@ public class PickerLayoutManager extends LinearLayoutManager {
         super.onLayoutChildren(recycler, state);
         if (getItemCount() < 0 || state.isPreLayout()) return;
 
-        View child = recycler.getViewForPosition(0);
-        measureChildWithMargins(child,0,0);
-        mItemViewWidth = getDecoratedMeasuredWidth(child);
-        mItemViewHeight = getDecoratedMeasuredHeight(child);
-        Log.e(TAG,"onLayoutChildren  itemWidth:"+mItemViewWidth+" itemHeight:"+mItemViewHeight);
-
-
-        int orientation = getOrientation();
-        if (orientation == HORIZONTAL){
+        if (mOrientation == HORIZONTAL){
             scaleHorizontalChildView();
-        }else if (orientation == VERTICAL){
+        }else if (mOrientation == VERTICAL){
             scaleVerticalChildView();
         }
 
@@ -93,14 +107,14 @@ public class PickerLayoutManager extends LinearLayoutManager {
 
     private void scaleHorizontalChildView() {
         float mid = getWidth() / 2.0f;
-        float unitScaleDownDist = scaleDownDistance * mid;
+
         for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
+            TextView child = (TextView) getChildAt(i);
             float childMid = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2.0f;
-            float scale = 1.0f + (-1 * scaleDownBy) * (Math.min(unitScaleDownDist, Math.abs(mid - childMid))) / unitScaleDownDist;
+            float scale = 1.0f + (-1 * (1 - mScale)) * (Math.min(mid, Math.abs(mid - childMid))) / mid;
             child.setScaleX(scale);
             child.setScaleY(scale);
-            if (changeAlpha) {
+            if (mIsAlpha) {
                 child.setAlpha(scale);
             }
         }
@@ -108,14 +122,13 @@ public class PickerLayoutManager extends LinearLayoutManager {
 
     private void scaleVerticalChildView(){
         float mid = getHeight() / 2.0f;
-        float unitScaleDownDist = scaleDownDistance * mid;
         for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
+            TextView child = (TextView) getChildAt(i);
             float childMid = (getDecoratedTop(child) + getDecoratedBottom(child)) / 2.0f;
-            float scale = 1.0f + (-1 * scaleDownBy) * (Math.min(unitScaleDownDist, Math.abs(mid - childMid))) / unitScaleDownDist;
+            float scale = 1.0f + (-1 *  (1 - mScale)) * (Math.min(mid, Math.abs(mid - childMid))) / mid;
             child.setScaleX(scale);
             child.setScaleY(scale);
-            if (changeAlpha) {
+            if (mIsAlpha) {
                 child.setAlpha(scale);
             }
         }
@@ -125,48 +138,26 @@ public class PickerLayoutManager extends LinearLayoutManager {
 
     @Override
     public void onScrollStateChanged(int state) {
-
         super.onScrollStateChanged(state);
         if (state == 0) {
-            if (onScrollStopListener != null && mLinearSnapHelper != null) {
+            if (mOnSelectedViewListener != null && mLinearSnapHelper != null) {
                 View view = mLinearSnapHelper.findSnapView(this);
-                int position = getPosition(view);
-                Log.e(TAG, "position:" + position);
-                onScrollStopListener.selectedView(view);
+                mOnSelectedViewListener.onSelectedView(view);
             }
         }
     }
 
 
-    public float getScaleDownBy() {
-        return scaleDownBy;
+
+
+    public void OnSelectedViewListener(OnSelectedViewListener listener) {
+        this.mOnSelectedViewListener = listener;
     }
 
-    public void setScaleDownBy(float scaleDownBy) {
-        this.scaleDownBy = scaleDownBy;
-    }
-
-    public float getScaleDownDistance() {
-        return scaleDownDistance;
-    }
-
-    public void setScaleDownDistance(float scaleDownDistance) {
-        this.scaleDownDistance = scaleDownDistance;
-    }
-
-    public boolean isChangeAlpha() {
-        return changeAlpha;
-    }
-
-    public void setChangeAlpha(boolean changeAlpha) {
-        this.changeAlpha = changeAlpha;
-    }
-
-    public void setOnScrollStopListener(onScrollStopListener onScrollStopListener) {
-        this.onScrollStopListener = onScrollStopListener;
-    }
-
-    public interface onScrollStopListener {
-        public void selectedView(View view);
+    /**
+     * 停止时，显示在中间的View的监听
+     */
+    public interface OnSelectedViewListener {
+        void onSelectedView(View view);
     }
 }

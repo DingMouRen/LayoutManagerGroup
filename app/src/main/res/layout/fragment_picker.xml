@@ -6,5 +6,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+
+        />
+    <!--
+
+     android:paddingLeft="183dp"
+        android:paddingRight="183dp"
+        android:clipToPadding="false"
+    -->
 </FrameLayout>
