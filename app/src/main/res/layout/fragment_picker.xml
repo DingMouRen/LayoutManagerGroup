@@ -49,8 +49,8 @@
         android:paddingBottom="50dp"
         android:paddingTop="50dp"
         android:layout_centerInParent="true"
-        app:elevation="10dp"
-        app:cardCornerRadius="5dp"
+        app:elevation="60dp"
+        app:cardCornerRadius="10dp"
         >
         <LinearLayout
             android:id="@+id/linear"
