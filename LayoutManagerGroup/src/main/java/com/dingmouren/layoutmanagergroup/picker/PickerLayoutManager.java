@@ -44,12 +44,24 @@ public class PickerLayoutManager extends LinearLayoutManager {
         if (mItemCount != 0) setAutoMeasureEnabled(false);
     }
 
+    /**
+     * 添加LinearSnapHelper
+     * @param view
+     */
     @Override
     public void onAttachedToWindow(RecyclerView view) {
         super.onAttachedToWindow(view);
         mLinearSnapHelper.attachToRecyclerView(view);
     }
 
+    /**
+     * 没有指定显示条目的数量时，RecyclerView的宽高由自身确定
+     * 指定显示条目的数量时，根据方向分别计算RecyclerView的宽高
+     * @param recycler
+     * @param state
+     * @param widthSpec
+     * @param heightSpec
+     */
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         if (getItemCount() != 0 && mItemCount != 0) {
@@ -105,9 +117,11 @@ public class PickerLayoutManager extends LinearLayoutManager {
         return super.scrollVerticallyBy(dy, recycler, state);
     }
 
+    /**
+     * 横向情况下的缩放
+     */
     private void scaleHorizontalChildView() {
         float mid = getWidth() / 2.0f;
-
         for (int i = 0; i < getChildCount(); i++) {
             TextView child = (TextView) getChildAt(i);
             float childMid = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2.0f;
@@ -120,6 +134,9 @@ public class PickerLayoutManager extends LinearLayoutManager {
         }
     }
 
+    /**
+     * 竖向方向上的缩放
+     */
     private void scaleVerticalChildView(){
         float mid = getHeight() / 2.0f;
         for (int i = 0; i < getChildCount(); i++) {
@@ -135,7 +152,10 @@ public class PickerLayoutManager extends LinearLayoutManager {
     }
 
 
-
+    /**
+     * 当滑动停止时触发回调
+     * @param state
+     */
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
