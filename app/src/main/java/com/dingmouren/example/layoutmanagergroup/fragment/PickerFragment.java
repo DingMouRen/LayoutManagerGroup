@@ -41,7 +41,7 @@ public class PickerFragment extends Fragment implements PickerLayoutManager.onSc
     private void initView(View rootView) {
         mRecyclerView = rootView.findViewById(R.id.recycler);
 
-        mPickerLayoutManager = new PickerLayoutManager(getContext(), PickerLayoutManager.VERTICAL, false,mRecyclerView,3);
+        mPickerLayoutManager = new PickerLayoutManager(getContext(), PickerLayoutManager.HORIZONTAL, false,0);
         mRecyclerView.setLayoutManager(mPickerLayoutManager);
         mRecyclerView.setAdapter(new MyAdapter());
 
