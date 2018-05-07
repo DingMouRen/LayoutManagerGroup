@@ -1,18 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/card_pick"
+        android:layout_marginBottom="35dp"
+        >
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:textColor="@android:color/black"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            />
+        <TextView
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:padding="5dp"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            />
+    </LinearLayout>
 
-        />
-    <!--
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_pick"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:paddingBottom="50dp"
+        android:paddingTop="50dp"
+        android:layout_centerInParent="true"
+        app:elevation="10dp"
+        app:cardCornerRadius="5dp"
+        >
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-     android:paddingLeft="183dp"
-        android:paddingRight="183dp"
-        android:clipToPadding="false"
-    -->
-</FrameLayout>
+
+</RelativeLayout>

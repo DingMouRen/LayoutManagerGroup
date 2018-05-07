@@ -35,12 +35,14 @@ public class PickerLayoutManager extends LinearLayoutManager {
         this.mOrientation = orientation;
     }
 
-    public PickerLayoutManager(Context context, RecyclerView recyclerView, int orientation, boolean reverseLayout, int itemCount) {
+    public PickerLayoutManager(Context context, RecyclerView recyclerView, int orientation, boolean reverseLayout, int itemCount,float scale,boolean isAlpha) {
         super(context, orientation, reverseLayout);
         this.mLinearSnapHelper = new LinearSnapHelper();
         this.mItemCount = itemCount;
         this.mOrientation = orientation;
         this.mRecyclerView = recyclerView;
+        this.mIsAlpha = isAlpha;
+        this.mScale = scale;
         if (mItemCount != 0) setAutoMeasureEnabled(false);
     }
 
@@ -162,12 +164,11 @@ public class PickerLayoutManager extends LinearLayoutManager {
         if (state == 0) {
             if (mOnSelectedViewListener != null && mLinearSnapHelper != null) {
                 View view = mLinearSnapHelper.findSnapView(this);
-                mOnSelectedViewListener.onSelectedView(view);
+                int position = getPosition(view);
+                mOnSelectedViewListener.onSelectedView(view,position);
             }
         }
     }
-
-
 
 
     public void OnSelectedViewListener(OnSelectedViewListener listener) {
@@ -178,6 +179,6 @@ public class PickerLayoutManager extends LinearLayoutManager {
      * 停止时，显示在中间的View的监听
      */
     public interface OnSelectedViewListener {
-        void onSelectedView(View view);
+        void onSelectedView(View view,int position);
     }
 }
