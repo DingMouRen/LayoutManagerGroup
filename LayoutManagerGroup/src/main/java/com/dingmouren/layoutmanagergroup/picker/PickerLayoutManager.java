@@ -123,7 +123,7 @@ public class PickerLayoutManager extends LinearLayoutManager {
     private void scaleHorizontalChildView() {
         float mid = getWidth() / 2.0f;
         for (int i = 0; i < getChildCount(); i++) {
-            TextView child = (TextView) getChildAt(i);
+            View child =  getChildAt(i);
             float childMid = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2.0f;
             float scale = 1.0f + (-1 * (1 - mScale)) * (Math.min(mid, Math.abs(mid - childMid))) / mid;
             child.setScaleX(scale);
@@ -140,7 +140,7 @@ public class PickerLayoutManager extends LinearLayoutManager {
     private void scaleVerticalChildView(){
         float mid = getHeight() / 2.0f;
         for (int i = 0; i < getChildCount(); i++) {
-            TextView child = (TextView) getChildAt(i);
+            View child =  getChildAt(i);
             float childMid = (getDecoratedTop(child) + getDecoratedBottom(child)) / 2.0f;
             float scale = 1.0f + (-1 *  (1 - mScale)) * (Math.min(mid, Math.abs(mid - childMid))) / mid;
             child.setScaleX(scale);
