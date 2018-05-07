@@ -9,4 +9,8 @@
         android:title="PickerLayoutManager"
         app:showAsAction="never"
         />
+    <item android:id="@+id/item_2"
+        android:title="SlideLayoutManager"
+        app:showAsAction="never"
+        />
 </menu>

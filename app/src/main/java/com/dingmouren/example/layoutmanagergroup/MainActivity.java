@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.dingmouren.example.layoutmanagergroup.fragment.EchelonFragment;
 import com.dingmouren.example.layoutmanagergroup.fragment.PickerFragment;
+import com.dingmouren.example.layoutmanagergroup.fragment.SlideFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private FragmentManager mFragmentManager;
     private List<Fragment> mFragments = new ArrayList<>();//存储所有的Fragment对象
-    private List<String> mManageNames = new ArrayList<>();//存储与Fragment对应的LayoutManager的名称
+    private List<String> mManagerNames = new ArrayList<>();//存储与Fragment对应的LayoutManager的名称
 
     private Fragment mCurrentFragment;
 
@@ -48,20 +49,26 @@ public class MainActivity extends AppCompatActivity {
     private void initFragments() {
         EchelonFragment echelonFragment = new EchelonFragment();//梯形布局
         mFragments.add(echelonFragment);
-        mManageNames.add("EchelonLayoutManager");
+        mManagerNames.add("EchelonLayoutManager");
 
         PickerFragment pickerFragment = new PickerFragment();//选择器布局
         mFragments.add(pickerFragment);
-        mManageNames.add("PickerLayoutManager");
+        mManagerNames.add("PickerLayoutManager");
+
+        SlideFragment slideFragment = new SlideFragment();//滑动布局
+        mFragments.add(slideFragment);
+        mManagerNames.add("SlideLayoutManager");
 
         mFragmentManager.beginTransaction()
                 .add(R.id.container_layout, mFragments.get(0))
                 .add(R.id.container_layout,mFragments.get(1))
+                .add(R.id.container_layout,mFragments.get(2))
+                .hide(mFragments.get(2))
                 .hide(mFragments.get(1))
                 .show(mFragments.get(0))
                 .commit();
         mCurrentFragment = mFragments.get(0);
-        mTvTitle.setText(mManageNames.get(0));
+        mTvTitle.setText(mManagerNames.get(0));
     }
 
 
@@ -80,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item_1:
                 switchFragment(1);
                 break;
+            case R.id.item_2:
+                switchFragment(2);
+                break;
 
         }
         return super.onOptionsItemSelected(item);
@@ -92,6 +102,6 @@ public class MainActivity extends AppCompatActivity {
                 .show(mFragments.get(position))
                 .commit();
         mCurrentFragment = mFragments.get(position);
-        mTvTitle.setText(mManageNames.get(position));
+        mTvTitle.setText(mManagerNames.get(position));
     }
 }
