@@ -29,29 +29,52 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
     //分割线间距
     private int dividerMargin = 20;
     private float count;
+    private int defalutBottom = 70;
+    private String defaultLike = "喜欢";
+    private String defalutDis = "无感";
+    private int defalutTextColor = Color.WHITE;
+    private String defaluteShadow = "#7F484848";
+    private int defalutGravity = Gravity.CENTER_HORIZONTAL;
+    private int defalutSize = dip2px(getContext(), 25);
+
+    private int like = 20;
+    private int disLike = 20; //点赞数,差评数
+    private float fLike, fDis;
+    private ImageView imageLike;
+    private ImageView imageDis;
+
+    private TextView likeNum, disNum, likeText, disText;
+    private LinearLayout likeBack, disBack, likeAll, disAll;
+    private AnimationDrawable animLike, animDis; //笑脸帧动画
+    private ValueAnimator animatorBack; //背景拉伸动画
+
+    private int type = 0; //选择执行帧动画的笑脸 //0 笑脸 1 哭脸
+    private boolean isClose = false; //判断收起动画
 
     public SmileView setDefalutBottom(int defalutBottom) {
         this.defalutBottom = defalutBottom;
         return this;
     }
 
-    public void notifyChange(){
+    public void notifyChange() {
         init();
         bindListener();
     }
 
-    private int defalutBottom = 70;
 
     public void setDefalutGravity(int defalutGravity) {
         this.defalutGravity = defalutGravity;
     }
+
     public void setDefalutDis(String defalutDis) {
         this.defalutDis = defalutDis;
     }
+
     public void setDefaultLike(String defaultLike) {
         this.defaultLike = defaultLike;
 
     }
+
     public SmileView setDividerMargin(int dividerMargin) {
         this.dividerMargin = dividerMargin;
         return this;
@@ -74,33 +97,13 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
     }
 
     public void setLike(int like) {
-        likeNum.setText(like + "%");
+        likeNum.setText(like + "");
     }
 
     public void setDisLike(int disLike) {
-        disNum.setText(disLike + "%");
+        disNum.setText(disLike + "");
     }
 
-    private String defaultLike = "喜欢";
-    private String defalutDis = "无感";
-    private int defalutTextColor = Color.WHITE;
-    private String defaluteShadow = "#7F484848";
-    private int defalutGravity = Gravity.CENTER_HORIZONTAL;
-    private int defalutSize = dip2px(getContext(), 25);
-
-    private int like = 10;
-    private int disLike = 20; //点赞数,差评数
-    private float fLike, fDis;
-    private ImageView imageLike;
-    private ImageView imageDis;
-
-    private TextView likeNum, disNum, likeText, disText;
-    private LinearLayout likeBack, disBack, likeAll, disAll;
-    private AnimationDrawable animLike, animDis; //笑脸帧动画
-    private ValueAnimator animatorBack; //背景拉伸动画
-
-    private int type = 0; //选择执行帧动画的笑脸 //0 笑脸 1 哭脸
-    private boolean isClose = false; //判断收起动画
 
     public SmileView(Context context) {
         this(context, null);
@@ -138,7 +141,7 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
         animLike = (AnimationDrawable) imageLike.getBackground();
         //初始化文字
         likeNum = new TextView(getContext());
-        likeNum.setText(like + "%");
+        likeNum.setText(like + "");
         likeNum.setTextColor(defalutTextColor);
         TextPaint likeNumPaint = likeNum.getPaint();
         likeNumPaint.setFakeBoldText(true);
@@ -151,7 +154,7 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
         imageDis.setBackgroundResource(R.drawable.animation_dislike);
         animDis = (AnimationDrawable) imageDis.getBackground();
         disNum = new TextView(getContext());
-        disNum.setText(disLike + "%");
+        disNum.setText(disLike + "");
         disNum.setTextColor(defalutTextColor);
         TextPaint disNumPaint = disNum.getPaint();
         disNumPaint.setFakeBoldText(true);
@@ -226,7 +229,7 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
         imageDis.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = 1; //设置动画对象
+               /* type = 1; //设置动画对象
                 animBack(); //拉伸背景
                 setVisibities(VISIBLE); //隐藏文字
                 //切换背景色
@@ -236,13 +239,14 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
                 //重置帧动画
                 imageLike.setBackground(null);
                 imageLike.setBackgroundResource(R.drawable.animation_like);
-                animLike = (AnimationDrawable) imageLike.getBackground();
+                animLike = (AnimationDrawable) imageLike.getBackground();*/
+               disLikeAnimation();
             }
         });
         imageLike.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = 0;
+               /* type = 0;
                 animBack();
                 setVisibities(VISIBLE);
                 setBackgroundColor(Color.TRANSPARENT);
@@ -250,9 +254,36 @@ public class SmileView extends LinearLayout implements Animator.AnimatorListener
                 likeBack.setBackgroundResource(R.drawable.yellow_background);
                 imageDis.setBackground(null);
                 imageDis.setBackgroundResource(R.drawable.animation_dislike);
-                animDis = (AnimationDrawable) imageDis.getBackground();
+                animDis = (AnimationDrawable) imageDis.getBackground();*/
+               likeAnimation();
             }
         });
+    }
+
+    public void disLikeAnimation(){
+        type = 1; //设置动画对象
+        animBack(); //拉伸背景
+        setVisibities(VISIBLE); //隐藏文字
+        //切换背景色
+        setBackgroundColor(Color.parseColor(defaluteShadow));
+        likeBack.setBackgroundResource(R.drawable.white_background);
+        disBack.setBackgroundResource(R.drawable.yellow_background);
+        //重置帧动画
+        imageLike.setBackground(null);
+        imageLike.setBackgroundResource(R.drawable.animation_like);
+        animLike = (AnimationDrawable) imageLike.getBackground();
+    }
+
+    public void likeAnimation(){
+        type = 0;
+        animBack();
+        setVisibities(VISIBLE);
+        setBackgroundColor(Color.parseColor(defaluteShadow));
+        disBack.setBackgroundResource(R.drawable.white_background);
+        likeBack.setBackgroundResource(R.drawable.yellow_background);
+        imageDis.setBackground(null);
+        imageDis.setBackgroundResource(R.drawable.animation_dislike);
+        animDis = (AnimationDrawable) imageDis.getBackground();
     }
 
     //背景伸展动画

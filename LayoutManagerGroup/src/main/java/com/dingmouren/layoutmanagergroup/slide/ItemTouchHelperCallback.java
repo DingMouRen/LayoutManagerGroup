@@ -46,12 +46,12 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int dragFlags = 0;
-        int swipeFlags = 0;
+        int slideFlags = 0;
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof SlideLayoutManager) {
-            swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            slideFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
         }
-        return makeMovementFlags(dragFlags, swipeFlags);
+        return makeMovementFlags(dragFlags, slideFlags);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
         T remove = dataList.remove(layoutPosition);
         adapter.notifyDataSetChanged();
         if (mListener != null) {
-            mListener.onSlided(viewHolder, remove, direction == ItemTouchHelper.LEFT ? ItemConfig.SWIPED_LEFT : ItemConfig.SWIPED_RIGHT);
+            mListener.onSlided(viewHolder, remove, direction == ItemTouchHelper.LEFT ? ItemConfig.SLIDED_LEFT : ItemConfig.SLIDED_RIGHT);
         }
         if (adapter.getItemCount() == 0) {
             if (mListener != null) {
@@ -113,9 +113,9 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
             }
             if (mListener != null) {
                 if (ratio != 0) {
-                    mListener.onSliding(viewHolder, ratio, ratio < 0 ? ItemConfig.SWIPING_LEFT : ItemConfig.SWIPING_RIGHT);
+                    mListener.onSliding(viewHolder, ratio, ratio < 0 ? ItemConfig.SLIDING_LEFT : ItemConfig.SLIDING_RIGHT);
                 } else {
-                    mListener.onSliding(viewHolder, ratio, ItemConfig.SWIPING_NONE);
+                    mListener.onSliding(viewHolder, ratio, ItemConfig.SLIDING_NONE);
                 }
             }
         }

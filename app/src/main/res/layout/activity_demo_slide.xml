@@ -2,29 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#f2f2f2"
     xmlns:blurkit="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/img_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/bg_1" />
-    <com.flurgle.blurkit.BlurLayout
-        android:id="@+id/blur_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        blurkit:blk_downscaleFactor="0.25"
-        >
-    </com.flurgle.blurkit.BlurLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
+        android:layout_height="match_parent"/>
 
     <com.dingmouren.example.layoutmanagergroup.widget.SmileView
+        android:id="@+id/smile_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

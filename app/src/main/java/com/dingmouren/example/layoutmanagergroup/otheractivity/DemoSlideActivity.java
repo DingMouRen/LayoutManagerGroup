@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import com.dingmouren.example.layoutmanagergroup.MyApplication;
 import com.dingmouren.example.layoutmanagergroup.R;
 import com.dingmouren.example.layoutmanagergroup.fragment.SlideFragment;
+import com.dingmouren.example.layoutmanagergroup.widget.SmileView;
+import com.dingmouren.layoutmanagergroup.slide.ItemConfig;
 import com.dingmouren.layoutmanagergroup.slide.ItemTouchHelperCallback;
 import com.dingmouren.layoutmanagergroup.slide.OnSlideListener;
 import com.dingmouren.layoutmanagergroup.slide.SlideLayoutManager;
@@ -26,21 +29,24 @@ import java.util.List;
  */
 
 public class DemoSlideActivity extends AppCompatActivity {
+    private static final String TAG = "DemoSlideActivity";
     private RecyclerView mRecyclerView;
-    private ImageView mImgBg;
-    private BlurLayout mBlurLayout;
+    private SmileView mSmileView;
     private SlideLayoutManager mSlideLayoutManager;
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelperCallback mItemTouchHelperCallback;
     private static List<Integer> mImgList = new ArrayList<>();
+    private int mLikeCount = 50;
+    private int mDislikeCount = 50;
+
 
     static {
-        mImgList.add(R.mipmap.bg_1);
-        mImgList.add(R.mipmap.bg_1);
-        mImgList.add(R.mipmap.bg_1);
-        mImgList.add(R.mipmap.bg_1);
-        mImgList.add(R.mipmap.bg_1);
-        mImgList.add(R.mipmap.bg_1);
+        mImgList.add(R.mipmap.img_slide_1);
+        mImgList.add(R.mipmap.img_slide_2);
+        mImgList.add(R.mipmap.img_slide_3);
+        mImgList.add(R.mipmap.img_slide_4);
+        mImgList.add(R.mipmap.img_slide_5);
+        mImgList.add(R.mipmap.img_slide_6);
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,8 +60,10 @@ public class DemoSlideActivity extends AppCompatActivity {
 
     private void initView() {
         mRecyclerView = findViewById(R.id.recycler_view);
-        mImgBg = findViewById(R.id.img_bg);
-        mBlurLayout = findViewById(R.id.blur_layout);
+        mSmileView = findViewById(R.id.smile_view);
+
+        mSmileView.setLike(mLikeCount);
+        mSmileView.setDisLike(mDislikeCount);
 
 
         mRecyclerView.setAdapter(new MyAdapter());
@@ -70,33 +78,31 @@ public class DemoSlideActivity extends AppCompatActivity {
         mItemTouchHelperCallback.setOnSlideListener(new OnSlideListener() {
             @Override
             public void onSliding(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
-
+                if (direction == ItemConfig.SLIDING_LEFT){
+                }else if (direction == ItemConfig.SLIDING_RIGHT){
+                }
             }
 
             @Override
             public void onSlided(RecyclerView.ViewHolder viewHolder, Object o, int direction) {
-
+                if (direction == ItemConfig.SLIDED_LEFT){
+                    mDislikeCount--;
+                    mSmileView.setDisLike(mDislikeCount);
+                    mSmileView.disLikeAnimation();
+                }else if (direction == ItemConfig.SLIDED_RIGHT){
+                    mLikeCount++;
+                    mSmileView.setLike(mLikeCount);
+                    mSmileView.likeAnimation();
+                }
             }
 
             @Override
             public void onClear() {
-
+                    Log.e(TAG,"onClear");
             }
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mBlurLayout.startBlur();
-        mBlurLayout.lockView();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mBlurLayout.pauseBlur();
-    }
 
     /**
      * 适配器

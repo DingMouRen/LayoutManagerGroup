@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/black"
     xmlns:blurkit="http://schemas.android.com/apk/res-auto">
 
 <android.support.v7.widget.RecyclerView
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent" />
+     />
 
 <com.dingmouren.example.layoutmanagergroup.widget.SmileView
+    android:id="@+id/smile_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 </RelativeLayout>
