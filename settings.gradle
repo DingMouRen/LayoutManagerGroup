@@ -1,1 +1,1 @@
-include ':app', ':LayoutManagerGroup'
+include ':app', ':LayoutManagerGroup', ':blurkit'

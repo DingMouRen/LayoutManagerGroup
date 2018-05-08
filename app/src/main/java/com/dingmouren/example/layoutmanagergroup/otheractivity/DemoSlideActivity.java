@@ -1,9 +1,8 @@
-package com.dingmouren.example.layoutmanagergroup.fragment;
+package com.dingmouren.example.layoutmanagergroup.otheractivity;
 
-import android.graphics.BlurMaskFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 
 import com.dingmouren.example.layoutmanagergroup.MyApplication;
 import com.dingmouren.example.layoutmanagergroup.R;
+import com.dingmouren.example.layoutmanagergroup.fragment.SlideFragment;
 import com.dingmouren.layoutmanagergroup.slide.ItemTouchHelperCallback;
 import com.dingmouren.layoutmanagergroup.slide.OnSlideListener;
 import com.dingmouren.layoutmanagergroup.slide.SlideLayoutManager;
@@ -21,14 +21,14 @@ import com.flurgle.blurkit.BlurLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by dingmouren on 2018/5/7.
+ * Created by Administrator on 2018/5/8.
  */
 
-public class SlideFragment extends Fragment {
-    private static final String TAG = "SlideFragment";
+public class DemoSlideActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
+    private ImageView mImgBg;
+    private BlurLayout mBlurLayout;
     private SlideLayoutManager mSlideLayoutManager;
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelperCallback mItemTouchHelperCallback;
@@ -42,19 +42,20 @@ public class SlideFragment extends Fragment {
         mImgList.add(R.mipmap.bg_1);
         mImgList.add(R.mipmap.bg_1);
     }
-
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_slide,container,false);
-        initView(rootView);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_demo_slide);
+
+        initView();
+
         initListener();
-        return rootView;
     }
 
-    private void initView(View rootView) {
-        mRecyclerView = rootView.findViewById(R.id.recycler_view);
+    private void initView() {
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mImgBg = findViewById(R.id.img_bg);
+        mBlurLayout = findViewById(R.id.blur_layout);
 
 
         mRecyclerView.setAdapter(new MyAdapter());
@@ -65,7 +66,7 @@ public class SlideFragment extends Fragment {
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
-    private void initListener(){
+    private void initListener() {
         mItemTouchHelperCallback.setOnSlideListener(new OnSlideListener() {
             @Override
             public void onSliding(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
@@ -84,6 +85,18 @@ public class SlideFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBlurLayout.startBlur();
+        mBlurLayout.lockView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBlurLayout.pauseBlur();
+    }
 
     /**
      * 适配器
@@ -95,6 +108,7 @@ public class SlideFragment extends Fragment {
             View view = LayoutInflater.from(MyApplication.sContext).inflate(R.layout.item_slide,parent,false);
             return new ViewHolder(view);
         }
+
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {

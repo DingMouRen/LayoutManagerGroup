@@ -19,4 +19,8 @@
         <item name="android:src">@mipmap/three_pointer</item>
     </style>
 
+    <style name="AppTheme.Main" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
 </resources>
