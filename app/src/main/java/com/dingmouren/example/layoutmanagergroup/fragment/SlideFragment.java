@@ -67,8 +67,9 @@ public class SlideFragment extends Fragment {
         mItemTouchHelperCallback = new ItemTouchHelperCallback(mRecyclerView.getAdapter(), mList);
         mItemTouchHelper = new ItemTouchHelper(mItemTouchHelperCallback);
         mSlideLayoutManager = new SlideLayoutManager(mRecyclerView, mItemTouchHelper);
-        mRecyclerView.setLayoutManager(mSlideLayoutManager);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setLayoutManager(mSlideLayoutManager);
+
     }
 
     private void initListener() {
