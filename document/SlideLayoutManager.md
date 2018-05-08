@@ -12,21 +12,19 @@
  
             @Override //滑动过程中会一直调用
             public void onSliding(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
-                if (direction == ItemConfig.SLIDING_LEFT) {
-                } else if (direction == ItemConfig.SLIDING_RIGHT) {
+                if (direction == ItemConfig.SLIDING_LEFT) {//向左滑动
+                
+                } else if (direction == ItemConfig.SLIDING_RIGHT) {//向右滑动
+                
                 }
             }
 
             @Override //滑动结束后会调用
             public void onSlided(RecyclerView.ViewHolder viewHolder, Object o, int direction) {
-                if (direction == ItemConfig.SLIDED_LEFT) {
-                    mDislikeCount--;
-                    mSmileView.setDisLike(mDislikeCount);
-                    mSmileView.disLikeAnimation();
-                } else if (direction == ItemConfig.SLIDED_RIGHT) {
-                    mLikeCount++;
-                    mSmileView.setLike(mLikeCount);
-                    mSmileView.likeAnimation();
+                if (direction == ItemConfig.SLIDED_LEFT) {//向左滑动
+                    
+                } else if (direction == ItemConfig.SLIDED_RIGHT) {//向右滑动
+                
                 }
                 int position = viewHolder.getAdapterPosition();
                 Log.e(TAG, "onSlided--position:" + position);
