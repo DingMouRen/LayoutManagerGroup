@@ -130,7 +130,6 @@ public class EchelonLayoutManager extends RecyclerView.LayoutManager {
      * 测量itemview的确切大小
      */
     private void measureChildWithExactlySize(View child ) {
-        RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) child.getLayoutParams();
         final int widthSpec = View.MeasureSpec.makeMeasureSpec(mItemViewWidth, View.MeasureSpec.EXACTLY);
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(mItemViewHeight, View.MeasureSpec.EXACTLY);
         child.measure(widthSpec, heightSpec);

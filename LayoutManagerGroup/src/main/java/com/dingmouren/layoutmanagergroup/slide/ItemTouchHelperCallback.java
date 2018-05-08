@@ -39,7 +39,7 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
         return t;
     }
 
-    public void setOnSwipedListener(OnSlideListener<T> mListener) {
+    public void setOnSlideListener(OnSlideListener<T> mListener) {
         this.mListener = mListener;
     }
 
@@ -61,7 +61,6 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        // 移除 onTouchListener,否则触摸滑动会乱了
         viewHolder.itemView.setOnTouchListener(null);
         int layoutPosition = viewHolder.getLayoutPosition();
         T remove = dataList.remove(layoutPosition);
@@ -69,7 +68,6 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
         if (mListener != null) {
             mListener.onSlided(viewHolder, remove, direction == ItemTouchHelper.LEFT ? ItemConfig.SWIPED_LEFT : ItemConfig.SWIPED_RIGHT);
         }
-        // 当没有数据时回调 mListener
         if (adapter.getItemCount() == 0) {
             if (mListener != null) {
                 mListener.onClear();
@@ -89,7 +87,6 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
         View itemView = viewHolder.itemView;
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             float ratio = dX / getThreshold(recyclerView, viewHolder);
-            // ratio 最大为 1 或 -1
             if (ratio > 1) {
                 ratio = 1;
             } else if (ratio < -1) {
@@ -97,7 +94,6 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
             }
             itemView.setRotation(ratio * ItemConfig.DEFAULT_ROTATE_DEGREE);
             int childCount = recyclerView.getChildCount();
-            // 当数据源个数大于最大显示数时
             if (childCount > ItemConfig.DEFAULT_SHOW_ITEM) {
                 for (int position = 1; position < childCount - 1; position++) {
                     int index = childCount - position - 1;
@@ -107,7 +103,6 @@ public class ItemTouchHelperCallback<T> extends ItemTouchHelper.Callback {
                     view.setTranslationY((index - Math.abs(ratio)) * itemView.getMeasuredHeight() / ItemConfig.DEFAULT_TRANSLATE_Y);
                 }
             } else {
-                // 当数据源个数小于或等于最大显示数时
                 for (int position = 0; position < childCount - 1; position++) {
                     int index = childCount - position - 1;
                     View view = recyclerView.getChildAt(position);
