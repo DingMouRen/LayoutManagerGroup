@@ -22,8 +22,11 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 
 /**
- *
+ * Created by 钉某人
+ * github: https://github.com/DingMouRen
+ * email: naildingmouren@gmail.com
  */
+
 public class SkidRightSnapHelper extends SnapHelper {
     private int mDirection;
 
