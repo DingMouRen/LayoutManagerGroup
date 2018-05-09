@@ -1,5 +1,22 @@
 ![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img_header.png)<br><br>
-喜欢的就点个星星吧
+### 喜欢的就点个星星吧
+**gradle导入：**
+* 1.项目的build.gralde中添加
+```
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+```
+* 2.添加依赖
+```
+dependencies {
+	        implementation 'com.github.DingMouRen:LayoutManagerGroup:5063a8fda6'
+	}
+```
 | 效果 | 如何使用 |
 | :----: | :---:|
 |![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_1.gif) | mRecyclerView.setLayoutManager(new EchelonLayoutManager(getContext()));|
