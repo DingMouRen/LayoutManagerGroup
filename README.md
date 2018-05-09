@@ -1,5 +1,5 @@
-![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img_header.png)<br>
-
+![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img_header.png)<br><br>
+喜欢的就点个星星吧
 | 效果 | 如何使用 |
 | :----: | :---:|
 |![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_1.gif) | mRecyclerView.setLayoutManager(new EchelonLayoutManager(getContext()));|
