@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <changeBounds
+        android:duration="1000"
+        android:interpolator="@android:interpolator/linear"
+        tools:targetApi="lollipop" />
+    <changeImageTransform
+        android:duration="1000"
+        android:interpolator="@android:interpolator/linear"
+        tools:targetApi="lollipop" />
+</transitionSet>

@@ -22,11 +22,11 @@
 
         <!--SkidRightLayoutManager-->
         <activity android:name=".activity.SkidRightActivity_1"
-            android:theme="@style/AppTheme.StatusTranslate"
+            android:theme="@style/AppTheme.Skid_1"
             android:launchMode="singleTask"
             />
         <activity android:name=".activity.SkidRightActivity_2"
-            android:theme="@style/AppTheme.StatusTranslate"
+            android:theme="@style/AppTheme.Skid_2"
             android:launchMode="singleTask"
             />
     </application>

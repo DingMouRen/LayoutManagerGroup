@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/LayoutManagerGroup/LayoutManagerGroup-LayoutManagerGroup.iml" filepath="$PROJECT_DIR$/LayoutManagerGroup/LayoutManagerGroup-LayoutManagerGroup.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/blurkit/blurkit.iml" filepath="$PROJECT_DIR$/blurkit/blurkit.iml" />
-      <module fileurl="file://D:\Android\LayoutManagerGroup\blurkit\blurkit.iml" filepath="D:\Android\LayoutManagerGroup\blurkit\blurkit.iml" />
     </modules>
   </component>
 </project>

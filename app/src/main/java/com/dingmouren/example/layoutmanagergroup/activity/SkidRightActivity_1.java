@@ -2,6 +2,7 @@ package com.dingmouren.example.layoutmanagergroup.activity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -87,13 +88,18 @@ public class SkidRightActivity_1 extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             Glide.with(MyApplication.sContext).load(imgs[position % 7]).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.imgBg);
             holder.tvTitle.setText(titles[position % 6]);
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
+            holder.imgBg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(SkidRightActivity_1.this, SkidRightActivity_2.class);
                     intent.putExtra("img", imgs[position % 7]);
                     intent.putExtra("title", titles[position % 6]);
-                    startActivity(intent);
+                    Pair<View, String> p1 = Pair.create((View)holder.imgBg, "img_view_1");
+                    Pair<View, String> p2 = Pair.create((View)holder.tvTitle, "title_1");
+                    Pair<View, String> p3 = Pair.create((View)holder.tvBottom, "tv_bottom");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(SkidRightActivity_1.this, p1,p2,p3);
+                    startActivity(intent,options.toBundle());
                 }
             });
         }
@@ -105,14 +111,14 @@ public class SkidRightActivity_1 extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             ImageView imgBg;
-            CardView cardView;
             TextView tvTitle;
+            TextView tvBottom;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 imgBg = itemView.findViewById(R.id.img_bg);
-                cardView = itemView.findViewById(R.id.card_view);
                 tvTitle = itemView.findViewById(R.id.tv_title);
+                tvBottom = itemView.findViewById(R.id.tv_bottom);
             }
         }
     }

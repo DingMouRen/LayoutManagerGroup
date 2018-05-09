@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp"
-    android:transitionName="card_view_1"
     app:elevation="10dp"
     >
     <RelativeLayout
@@ -18,6 +17,7 @@
             android:layout_height="match_parent"
             android:src="@mipmap/skid_right_1"
             android:scaleType="centerCrop"
+            android:transitionName="img_view_1"
             />
         <TextView
             android:id="@+id/tv_title"
@@ -30,8 +30,21 @@
             android:textSize="40sp"
             android:transitionName="title_1"
             android:layout_above="@+id/tv_bottom"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="56dp"
+            android:text="@string/skid_activty_2_text"
+            android:textColor="@android:color/white"
+            android:maxLines="3"
+            android:transitionName="tv_bottom"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:ellipsize="end"
+            android:layout_marginBottom="16dp"
             />
     </RelativeLayout>
 </android.support.v7.widget.CardView>
