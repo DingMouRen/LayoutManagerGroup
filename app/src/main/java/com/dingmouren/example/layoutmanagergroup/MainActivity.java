@@ -1,6 +1,7 @@
 package com.dingmouren.example.layoutmanagergroup;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.dingmouren.example.layoutmanagergroup.activity.SkidRightActivity_1;
 import com.dingmouren.example.layoutmanagergroup.fragment.EchelonFragment;
 import com.dingmouren.example.layoutmanagergroup.fragment.PickerFragment;
 import com.dingmouren.example.layoutmanagergroup.fragment.SlideFragment;
@@ -89,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.item_2:
                 switchFragment(2);
+                break;
+            case R.id.item_3:
+                startActivity(new Intent(MainActivity.this, SkidRightActivity_1.class));
                 break;
 
         }

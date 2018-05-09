@@ -1,8 +1,12 @@
 package com.dingmouren.example.layoutmanagergroup.bean;
 
+
 /**
- * Created by dingmouren on 2018/5/8.
+ * Created by 钉某人
+ * github: https://github.com/DingMouRen
+ * email: naildingmouren@gmail.com
  */
+
 
 public class SlideBean {
     private int mItemBg;

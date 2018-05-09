@@ -28,7 +28,9 @@ import java.util.List;
 
 
 /**
- * Created by dingmouren on 2018/5/7.
+ * Created by 钉某人
+ * github: https://github.com/DingMouRen
+ * email: naildingmouren@gmail.com
  */
 
 public class SlideFragment extends Fragment {

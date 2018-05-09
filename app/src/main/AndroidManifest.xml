@@ -18,14 +18,17 @@
             </intent-filter>
         </activity>
 
-        <!--                         用于演示的Activity                           -->
+        <!--  ********************************** 用于演示的Activity **********************************  -->
 
-        <!--SlideLayoutManager-->
-        <activity android:name=".otheractivity.DemoSlideActivity"
-            android:theme="@style/AppTheme.Main"
-            >
-
-        </activity>
+        <!--SkidRightLayoutManager-->
+        <activity android:name=".activity.SkidRightActivity_1"
+            android:theme="@style/AppTheme.StatusTranslate"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".activity.SkidRightActivity_2"
+            android:theme="@style/AppTheme.StatusTranslate"
+            android:launchMode="singleTask"
+            />
     </application>
 
 </manifest>

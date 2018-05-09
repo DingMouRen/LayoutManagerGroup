@@ -1,32 +1,38 @@
 package com.dingmouren.layoutmanagergroup.skidright;
 
+import android.graphics.PointF;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+
+import com.dingmouren.layoutmanagergroup.echelon.ItemViewInfo;
 
 import java.util.ArrayList;
 
 /**
- * Created by dingmouren on 2018/5/8.
+ * Created by thunderPunch on 2017/2/15
+ * Description:
  */
 
-public class SkidRightLayoutManager extends LayoutManager {
-    private static final int INVALIDATE_SCROLL_OFFSET = Integer.MAX_VALUE;
-    private static final float DEFAULT_CHILD_LAYOUT_OFFSET = 0.2f;
+public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
+    private boolean mHasChild = false;
     private int mItemViewWidth;
     private int mItemViewHeight;
-    private int mChildPeekSize;
-    private int mScrollOffset = INVALIDATE_SCROLL_OFFSET;
+    private int mScrollOffset = Integer.MAX_VALUE;
     private float mItemHeightWidthRatio;
     private float mScale;
-    private int mChildCount;
-    SkidRightSnapHelper mSkidRightSnapHelper;
-    //new LadderLayoutManager(1.5f, 0.85f);
+    private int mItemCount;
+    private SkidRightSnapHelper mSkidRightSnapHelper;
+
     public SkidRightLayoutManager(float itemHeightWidthRatio, float scale) {
         this.mItemHeightWidthRatio = itemHeightWidthRatio;
         this.mScale = scale;
-        this.mSkidRightSnapHelper = new SkidRightSnapHelper();
+        mSkidRightSnapHelper = new SkidRightSnapHelper();
     }
 
     @Override
@@ -42,40 +48,43 @@ public class SkidRightLayoutManager extends LayoutManager {
     }
 
     public int getFixedScrollPosition(int direction, float fixValue) {
-        if (mScrollOffset % mItemViewWidth == 0) {
-            return RecyclerView.NO_POSITION;
+        if (mHasChild) {
+            if (mScrollOffset % mItemViewWidth == 0) {
+                return RecyclerView.NO_POSITION;
+            }
+            float position = mScrollOffset * 1.0f / mItemViewWidth;
+            return convert2AdapterPosition((int) (direction > 0 ? position + fixValue : position + (1 - fixValue)) - 1);
         }
-        float position = mScrollOffset * 1.0f / mItemViewWidth;
-        return (int) (direction > 0 ? position + fixValue : position + (1 - fixValue)) - 1;
+        return RecyclerView.NO_POSITION;
     }
 
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if (state.getItemCount() == 0) {
-            removeAndRecycleAllViews(recycler);
-            return;
+        if (state.getItemCount() == 0 || state.isPreLayout()) return;
+        removeAndRecycleAllViews(recycler);
+        if (!mHasChild) {
+            mItemViewHeight = getVerticalSpace();
+            mItemViewWidth = (int) (mItemViewHeight / mItemHeightWidthRatio);
+            mHasChild = true;
         }
-        mItemViewHeight = getVerticalSpace();
-        mItemViewWidth = (int) (mItemViewHeight / mItemHeightWidthRatio);
-        mChildPeekSize = (int) (mItemViewWidth * DEFAULT_CHILD_LAYOUT_OFFSET);
-        mChildCount = getItemCount();
+        mItemCount = getItemCount();
         mScrollOffset = makeScrollOffsetWithinRange(mScrollOffset);
         fill(recycler);
     }
 
-    private void fill(RecyclerView.Recycler recycler) {
+    public void fill(RecyclerView.Recycler recycler) {
         int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemViewWidth);
         int bottomItemVisibleSize = mScrollOffset % mItemViewWidth;
         final float offsetPercent = bottomItemVisibleSize * 1.0f / mItemViewWidth;
         final int space = getHorizontalSpace();
 
-        ArrayList<ItemLayoutInfo> layoutInfos = new ArrayList<>();
+        ArrayList<ItemViewInfo> layoutInfos = new ArrayList<>();
         for (int i = bottomItemPosition - 1, j = 1, remainSpace = space - mItemViewWidth;
              i >= 0; i--, j++) {
-            double maxOffset = mChildPeekSize * Math.pow(mScale, j);
+            double maxOffset = (getHorizontalSpace() - mItemViewWidth) / 2 * Math.pow(mScale, j);
             int start = (int) (remainSpace - offsetPercent * maxOffset);
-            ItemLayoutInfo info = new ItemLayoutInfo(start,
+            ItemViewInfo info = new ItemViewInfo(start,
                     (float) (Math.pow(mScale, j - 1) * (1 - offsetPercent * (1 - mScale))),
                     offsetPercent,
                     start * 1.0f / space
@@ -84,17 +93,17 @@ public class SkidRightLayoutManager extends LayoutManager {
 
             remainSpace -= maxOffset;
             if (remainSpace <= 0) {
-                info.start = (int) (remainSpace + maxOffset);
-                info.positionOffsetPercent = 0;
-                info.layoutPercent = info.start / space;
-                info.scaleXY = (float) Math.pow(mScale, j - 1);
+                info.setTop((int) (remainSpace + maxOffset));
+                info.setPositionOffset(0);
+                info.setLayoutPercent(info.getTop() / space);
+                info.setScaleXY( (float) Math.pow(mScale, j - 1));
                 break;
             }
         }
 
-        if (bottomItemPosition < mChildCount) {
+        if (bottomItemPosition < mItemCount) {
             final int start = space - bottomItemVisibleSize;
-            layoutInfos.add(new ItemLayoutInfo(start, 1.0f,
+            layoutInfos.add(new ItemViewInfo(start, 1.0f,
                     bottomItemVisibleSize * 1.0f / mItemViewWidth, start * 1.0f / space).
                     setIsBottom());
         } else {
@@ -108,7 +117,7 @@ public class SkidRightLayoutManager extends LayoutManager {
         final int childCount = getChildCount();
         for (int i = childCount - 1; i >= 0; i--) {
             View childView = getChildAt(i);
-            int pos = getPosition(childView);
+            int pos = convert2LayoutPosition(getPosition(childView));
             if (pos > endPos || pos < startPos) {
                 removeAndRecycleView(childView, recycler);
             }
@@ -116,21 +125,21 @@ public class SkidRightLayoutManager extends LayoutManager {
         detachAndScrapAttachedViews(recycler);
 
         for (int i = 0; i < layoutCount; i++) {
-            fillChild(recycler.getViewForPosition(startPos + i), layoutInfos.get(i));
+            fillChild(recycler.getViewForPosition(convert2AdapterPosition(startPos + i)), layoutInfos.get(i));
         }
     }
 
-    private void fillChild(View view, ItemLayoutInfo layoutInfo) {
+    private void fillChild(View view, ItemViewInfo layoutInfo) {
         addView(view);
         measureChildWithExactlySize(view);
-        final int scaleFix = (int) (mItemViewWidth * (1 - layoutInfo.scaleXY) / 2);
+        final int scaleFix = (int) (mItemViewWidth * (1 - layoutInfo.getScaleXY()) / 2);
+        final float gap = getVerticalSpace() - mItemViewHeight * layoutInfo.getScaleXY();
 
-
-        int top = (int) (getPaddingTop());
-        layoutDecoratedWithMargins(view, layoutInfo.start - scaleFix, top
-                , layoutInfo.start + mItemViewWidth - scaleFix, top + mItemViewHeight);
-        ViewCompat.setScaleX(view, layoutInfo.scaleXY);
-        ViewCompat.setScaleY(view, layoutInfo.scaleXY);
+        int top = (int) getPaddingTop();
+        layoutDecoratedWithMargins(view, layoutInfo.getTop() - scaleFix, top
+                , layoutInfo.getTop() + mItemViewWidth - scaleFix, top + mItemViewHeight);
+        ViewCompat.setScaleX(view, layoutInfo.getScaleXY());
+        ViewCompat.setScaleY(view, layoutInfo.getScaleXY());
     }
 
     private void measureChildWithExactlySize(View child) {
@@ -143,10 +152,17 @@ public class SkidRightLayoutManager extends LayoutManager {
     }
 
     private int makeScrollOffsetWithinRange(int scrollOffset) {
-        return Math.min(Math.max(mItemViewWidth, scrollOffset), mChildCount * mItemViewWidth);
+        return Math.min(Math.max(mItemViewWidth, scrollOffset), mItemCount * mItemViewWidth);
     }
 
 
+    @Override
+    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
+        int pendingScrollOffset = mScrollOffset + dy;
+        mScrollOffset = makeScrollOffsetWithinRange(pendingScrollOffset);
+        fill(recycler);
+        return mScrollOffset - pendingScrollOffset + dy;
+    }
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
@@ -158,11 +174,18 @@ public class SkidRightLayoutManager extends LayoutManager {
 
 
     public int calculateDistanceToPosition(int targetPos) {
-        int pendingScrollOffset = mItemViewWidth * (targetPos + 1);
+        int pendingScrollOffset = mItemViewWidth * (convert2LayoutPosition(targetPos) + 1);
         return pendingScrollOffset - mScrollOffset;
     }
 
 
+    @Override
+    public void scrollToPosition(int position) {
+        if (position > 0 && position < mItemCount) {
+            mScrollOffset = mItemViewWidth * (convert2LayoutPosition(position) + 1);
+            requestLayout();
+        }
+    }
 
 
     @Override
@@ -170,6 +193,13 @@ public class SkidRightLayoutManager extends LayoutManager {
         return true;
     }
 
+    public int convert2AdapterPosition(int layoutPosition) {
+        return mItemCount - 1 - layoutPosition;
+    }
+
+    public int convert2LayoutPosition(int adapterPostion) {
+        return mItemCount - 1 - adapterPostion;
+    }
 
     public int getVerticalSpace() {
         return getHeight() - getPaddingTop() - getPaddingBottom();
@@ -180,24 +210,5 @@ public class SkidRightLayoutManager extends LayoutManager {
     }
 
 
-    private static class ItemLayoutInfo {
-        float scaleXY;
-        float layoutPercent;
-        float positionOffsetPercent;
-        int start;
-        boolean isBottom;
 
-        ItemLayoutInfo(int top, float scale, float positonOffset, float percent) {
-            this.start = top;
-            this.scaleXY = scale;
-            this.positionOffsetPercent = positonOffset;
-            this.layoutPercent = percent;
-        }
-
-        ItemLayoutInfo setIsBottom() {
-            isBottom = true;
-            return this;
-        }
-
-    }
 }

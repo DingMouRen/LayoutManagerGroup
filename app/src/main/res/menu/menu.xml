@@ -13,4 +13,8 @@
         android:title="SlideLayoutManager"
         app:showAsAction="never"
         />
+    <item android:id="@+id/item_3"
+        android:title="SkidRightLayoutManager"
+        app:showAsAction="never"
+        />
 </menu>
