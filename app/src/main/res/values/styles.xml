@@ -22,7 +22,6 @@
     <!--沉浸式主题-->
     <style name="AppTheme.StatusTranslate" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
     </style>
 
 </resources>

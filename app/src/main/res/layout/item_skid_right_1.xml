@@ -20,6 +20,7 @@
             android:scaleType="centerCrop"
             />
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confidence"
@@ -27,18 +28,10 @@
             android:layout_marginLeft="16dp"
             android:textStyle="bold"
             android:textSize="40sp"
+            android:transitionName="title_1"
             android:layout_above="@+id/tv_bottom"
-            />
-        <TextView
-            android:id="@+id/tv_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Keep on going never give up."
-            android:textColor="@android:color/white"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="22dp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="56dp"
             />
     </RelativeLayout>
 </android.support.v7.widget.CardView>
