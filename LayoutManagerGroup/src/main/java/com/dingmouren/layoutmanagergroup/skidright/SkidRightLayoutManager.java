@@ -22,7 +22,7 @@ public class SkidRightLayoutManager extends LayoutManager {
     private float mScale;
     private int mChildCount;
     SkidRightSnapHelper mSkidRightSnapHelper;
-
+    //new LadderLayoutManager(1.5f, 0.85f);
     public SkidRightLayoutManager(float itemHeightWidthRatio, float scale) {
         this.mItemHeightWidthRatio = itemHeightWidthRatio;
         this.mScale = scale;
