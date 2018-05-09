@@ -1,9 +1,13 @@
 package com.dingmouren.example.layoutmanagergroup.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +61,7 @@ public class SkidRightActivity_1 extends AppCompatActivity {
                 R.mipmap.skid_right_7,
 
         };
+        String[] titles = {"Acknowledging", "Belief", "Confidence", "Dreaming", "Happiness", "Confidence"};
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,8 +70,20 @@ public class SkidRightActivity_1 extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             Glide.with(MyApplication.sContext).load(imgs[position%7]).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.imgBg);
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SkidRightActivity_1.this, SkidRightActivity_2.class);
+                    intent.putExtra("img",imgs[position]);
+                    Pair<View, String> pair = new Pair<View, String>(holder.cardView,"card_view_1");
+//                    Pair<View,String> pairText = new Pair<View, String>(holder.text,"text");
+                    ActivityOptionsCompat optionsCompat =
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(SkidRightActivity_1.this, pair);
+                    startActivity(intent,optionsCompat.toBundle());
+                }
+            });
         }
 
         @Override
@@ -76,9 +93,11 @@ public class SkidRightActivity_1 extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             ImageView imgBg;
+            CardView cardView;
             public ViewHolder(View itemView) {
                 super(itemView);
                 imgBg = itemView.findViewById(R.id.img_bg);
+                cardView = itemView.findViewById(R.id.card_view);
             }
         }
     }

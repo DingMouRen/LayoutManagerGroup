@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp"
+    android:transitionName="card_view_1"
     app:elevation="10dp"
     >
     <RelativeLayout
@@ -14,8 +16,29 @@
             android:id="@+id/img_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/bg_4"
+            android:src="@mipmap/skid_right_1"
             android:scaleType="centerCrop"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confidence"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="16dp"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:layout_above="@+id/tv_bottom"
+            />
+        <TextView
+            android:id="@+id/tv_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Keep on going never give up."
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="22dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
             />
     </RelativeLayout>
 </android.support.v7.widget.CardView>
