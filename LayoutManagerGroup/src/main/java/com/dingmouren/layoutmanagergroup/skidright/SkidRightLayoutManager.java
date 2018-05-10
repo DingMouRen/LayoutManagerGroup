@@ -133,7 +133,6 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
         addView(view);
         measureChildWithExactlySize(view);
         final int scaleFix = (int) (mItemViewWidth * (1 - layoutInfo.getScaleXY()) / 2);
-        final float gap = getVerticalSpace() - mItemViewHeight * layoutInfo.getScaleXY();
 
         int top = (int) getPaddingTop();
         layoutDecoratedWithMargins(view, layoutInfo.getTop() - scaleFix, top
@@ -156,13 +155,6 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
     }
 
 
-    @Override
-    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        int pendingScrollOffset = mScrollOffset + dy;
-        mScrollOffset = makeScrollOffsetWithinRange(pendingScrollOffset);
-        fill(recycler);
-        return mScrollOffset - pendingScrollOffset + dy;
-    }
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
