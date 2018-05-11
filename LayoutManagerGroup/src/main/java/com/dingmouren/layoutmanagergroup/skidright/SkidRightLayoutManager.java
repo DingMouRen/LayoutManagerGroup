@@ -15,10 +15,10 @@ import com.dingmouren.layoutmanagergroup.echelon.ItemViewInfo;
 import java.util.ArrayList;
 
 /**
- * Created by thunderPunch on 2017/2/15
- * Description:
+ * Created by 钉某人
+ * github: https://github.com/DingMouRen
+ * email: naildingmouren@gmail.com
  */
-
 public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
     private boolean mHasChild = false;
     private int mItemViewWidth;
