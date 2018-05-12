@@ -25,7 +25,7 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <!--SkidLayoutManager-->
+    <!--SkidRightLayoutManager-->
     <style name="AppTheme.Skid_1" parent="AppTheme.StatusTranslate">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="lollipop">false</item>

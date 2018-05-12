@@ -14,7 +14,7 @@
 * 2.添加依赖
 ```
 dependencies {
-	       implementation 'com.github.DingMouRen:LayoutManagerGroup:f9fcfd3763'
+	      implementation 'com.github.DingMouRen:LayoutManagerGroup:f68c9712e5'
 	}
 ```
 | 效果 | 如何使用 |
