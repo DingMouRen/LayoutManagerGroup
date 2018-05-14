@@ -3,7 +3,11 @@
 **gradle导入：**
 * 1.项目的build.gralde中添加
 ```
+<<<<<<< HEAD
 	allprojects{
+=======
+	allprojects  {
+>>>>>>> 07de97956fffa9aedecd6ddb1aa99085a4a3441c
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
