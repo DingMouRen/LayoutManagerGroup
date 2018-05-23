@@ -1,7 +1,11 @@
 ![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img_header.png)<br><br>
 ### 喜欢的就点个星星吧
 **gradle导入：**
+<<<<<<< HEAD
 * 1.项目的 build.gralde中添加
+=======
+* 1.项目 的build.gralde中添加
+>>>>>>> 442cdba36d34cccae4f1f55d0ab229429fbef5ba
 ```
 
 	allprojects{
@@ -26,7 +30,6 @@ dependencies {
 |![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_3.gif) | 用法详情请点击[SlideLayoutManager.md](https://github.com/DingMouRen/LayoutManagerGroup/blob/master/document/SlideLayoutManager.md)|
 |![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_2.gif) | mRecyclerView.setLayoutManager(new PickerLayoutManager(getContext(),mRecyclerView, PickerLayoutManager.VERTICAL, false,3,0.4f,true));|
 
-#### 未完待续...
+#### 未完待你续...
 
-![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/pay.gif)
-![img_pay](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img_pay.png)
+
