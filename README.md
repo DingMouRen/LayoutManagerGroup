@@ -21,13 +21,13 @@ dependencies {
 	      implementation 'com.github.DingMouRen:LayoutManagerGroup:f68c9712e5'
 	}
 ```
-| EchelonLayoutManager | SkidRightLayoutManager |
-| :----: | :---:|
-|![img1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img1.gif) |  ![img2](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img2.gif)|
-<br>
-| SlideLayoutManager | PickerLayoutManager |
-| :----: | :---:|
-|![img3](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img3.gif)  |  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)|
+| EchelonLayoutManager | SkidRightLayoutManager | SlideLayoutManager |
+| :----: | :---:| :---:|
+|![img1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img1.gif) |  ![img2](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img2.gif)| ![img3](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img3.gif)|
+
+| PickerLayoutManager |
+| :---:|
+|  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)|
 
 #### 未完待你续...
 
