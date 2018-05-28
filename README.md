@@ -21,12 +21,13 @@ dependencies {
 	      implementation 'com.github.DingMouRen:LayoutManagerGroup:f68c9712e5'
 	}
 ```
-| 效果 | 如何使用 |
+| EchelonLayoutManager | SkidRightLayoutManager |
 | :----: | :---:|
-|![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_1.gif) | mRecyclerView.setLayoutManager(new EchelonLayoutManager(getContext()));|
-|![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_4_1.gif) ![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_4_2.gif) |  mSkidRightLayoutManager = new SkidRightLayoutManager(1.5f, 0.85f);|
-|![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_3.gif) | 用法详情请点击[SlideLayoutManager.md](https://github.com/DingMouRen/LayoutManagerGroup/blob/master/document/SlideLayoutManager.md)|
-|![layout_1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/layout_2.gif) | mRecyclerView.setLayoutManager(new PickerLayoutManager(getContext(),mRecyclerView, PickerLayoutManager.VERTICAL, false,3,0.4f,true));|
+|![img1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img1.gif) |  ![img2](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img2.gif)|
+<br>
+| SlideLayoutManager | PickerLayoutManager |
+| :----: | :---:|
+|![img3](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img3.gif)  |  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)|
 
 #### 未完待你续...
 
