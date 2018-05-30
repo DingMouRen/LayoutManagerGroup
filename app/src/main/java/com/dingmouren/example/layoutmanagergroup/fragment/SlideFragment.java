@@ -21,7 +21,6 @@ import com.dingmouren.layoutmanagergroup.slide.ItemConfig;
 import com.dingmouren.layoutmanagergroup.slide.ItemTouchHelperCallback;
 import com.dingmouren.layoutmanagergroup.slide.OnSlideListener;
 import com.dingmouren.layoutmanagergroup.slide.SlideLayoutManager;
-import com.flurgle.blurkit.BlurLayout;
 
 import java.util.ArrayList;
 import java.util.List;

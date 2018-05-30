@@ -3,12 +3,12 @@
     package="com.dingmouren.example.layoutmanagergroup">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".MyApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -18,16 +18,21 @@
             </intent-filter>
         </activity>
 
-        <!--  ********************************** 用于演示的Activity **********************************  -->
+        <!-- ********************************** 用于演示的Activity ********************************** -->
 
-        <!--SkidRightLayoutManager-->
-        <activity android:name=".activity.SkidRightActivity_1"
+
+        <!-- SkidRightLayoutManager -->
+        <activity
+            android:name=".activity.SkidRightActivity_1"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.Skid_1" />
+        <activity
+            android:name=".activity.SkidRightActivity_2"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.Skid_2" />
+        <!--  BannerLayoutManager-->
+        <activity android:name=".activity.BannerActivity"
             android:theme="@style/AppTheme.Skid_1"
-            android:launchMode="singleTask"
-            />
-        <activity android:name=".activity.SkidRightActivity_2"
-            android:theme="@style/AppTheme.Skid_2"
-            android:launchMode="singleTask"
             />
     </application>
 

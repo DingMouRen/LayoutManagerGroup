@@ -171,7 +171,7 @@ public class PickerLayoutManager extends LinearLayoutManager {
     }
 
 
-    public void OnSelectedViewListener(OnSelectedViewListener listener) {
+    public void setOnSelectedViewListener(OnSelectedViewListener listener) {
         this.mOnSelectedViewListener = listener;
     }
 

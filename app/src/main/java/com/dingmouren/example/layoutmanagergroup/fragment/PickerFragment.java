@@ -83,7 +83,7 @@ public class PickerFragment extends Fragment  {
     }
 
     private void initListener(){
-        mPickerLayoutManager1.OnSelectedViewListener(new PickerLayoutManager.OnSelectedViewListener() {
+        mPickerLayoutManager1.setOnSelectedViewListener(new PickerLayoutManager.OnSelectedViewListener() {
             @Override
             public void onSelectedView(View view, int position) {
                 TextView textView = (TextView) view;
@@ -92,7 +92,7 @@ public class PickerFragment extends Fragment  {
             }
         });
 
-        mPickerLayoutManager2.OnSelectedViewListener(new PickerLayoutManager.OnSelectedViewListener() {
+        mPickerLayoutManager2.setOnSelectedViewListener(new PickerLayoutManager.OnSelectedViewListener() {
             @Override
             public void onSelectedView(View view, int position) {
                 TextView textView = (TextView) view;
