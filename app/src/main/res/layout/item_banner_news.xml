@@ -8,9 +8,10 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:text="12"
-        android:textSize="12sp"
+        android:textSize="18sp"
         android:singleLine="true"
         android:maxEms="18"
+        android:textStyle="bold"
         android:ellipsize="end"
         />
 </RelativeLayout>

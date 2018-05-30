@@ -73,7 +73,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler2"
@@ -91,6 +91,7 @@
             android:layout_marginRight="5dp"
             android:text="京东快报"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:textColor="@android:color/black"
             />
     </RelativeLayout>
