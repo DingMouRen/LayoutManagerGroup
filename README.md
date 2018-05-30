@@ -26,8 +26,8 @@ dependencies {
 |![img1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img1.gif) |  ![img2](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img2.gif)| ![img3](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img3.gif)|
 
 | PickerLayoutManager | BannerLayoutManager |
-| :---:|
-|  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)| ![img5](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img5.gif)|
+| :---:| :---:|
+|  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)|![img5](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img5.gif)|
 
 #### 未完待你续...
 
