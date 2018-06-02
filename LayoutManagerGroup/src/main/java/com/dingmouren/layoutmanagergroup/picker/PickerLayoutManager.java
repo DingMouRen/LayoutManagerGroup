@@ -6,8 +6,6 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * Created by 钉某人
@@ -79,17 +77,14 @@ public class PickerLayoutManager extends LinearLayoutManager {
                 mRecyclerView.setClipToPadding(false);
                 mRecyclerView.setPadding(paddingHorizontal,0,paddingHorizontal,0);
                 setMeasuredDimension(mItemViewWidth * mItemCount, mItemViewHeight);
-                Log.e(TAG,"onMeasure--mItemCount不为0--recyclerview--横向--width:"+mItemViewWidth*mItemCount+" height:"+mItemViewHeight);
             } else if (mOrientation == VERTICAL) {
                 int paddingVertical = (mItemCount - 1) / 2 * mItemViewHeight;
                 mRecyclerView.setClipToPadding(false);
                 mRecyclerView.setPadding(0,paddingVertical,0,paddingVertical);
                 setMeasuredDimension(mItemViewWidth, mItemViewHeight * mItemCount);
-                Log.e(TAG,"onMeasure--mItemCount不为0--recyclerview--竖向--width:"+mItemViewWidth+" height:"+mItemViewHeight*mItemCount);
             }
         }else {
             super.onMeasure(recycler,state,widthSpec,heightSpec);
-            Log.e(TAG,"onMeasure默认");
         }
 
     }

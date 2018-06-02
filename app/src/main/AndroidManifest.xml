@@ -30,10 +30,15 @@
             android:name=".activity.SkidRightActivity_2"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.Skid_2" />
-        <!--  BannerLayoutManager-->
-        <activity android:name=".activity.BannerActivity"
+        <!-- BannerLayoutManager -->
+        <activity
+            android:name=".activity.BannerActivity"
+            android:theme="@style/AppTheme.Skid_1" />
+        <!-- ViewPagerLayoutManager-->
+        <activity android:name=".activity.ViewPagerLayoutManagerActivity"
             android:theme="@style/AppTheme.Skid_1"
-            />
+            >
+        </activity>
     </application>
 
 </manifest>

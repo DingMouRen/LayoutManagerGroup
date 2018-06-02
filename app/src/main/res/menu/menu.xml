@@ -21,4 +21,8 @@
         android:title="BannerLayoutManager"
         app:showAsAction="never"
         />
+    <item android:id="@+id/item_5"
+        android:title="ViewPagerLayoutManager"
+        app:showAsAction="never"
+        />
 </menu>

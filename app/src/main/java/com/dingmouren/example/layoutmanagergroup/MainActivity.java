@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.dingmouren.example.layoutmanagergroup.activity.BannerActivity;
 import com.dingmouren.example.layoutmanagergroup.activity.SkidRightActivity_1;
+import com.dingmouren.example.layoutmanagergroup.activity.ViewPagerLayoutManagerActivity;
 import com.dingmouren.example.layoutmanagergroup.fragment.EchelonFragment;
 import com.dingmouren.example.layoutmanagergroup.fragment.PickerFragment;
 import com.dingmouren.example.layoutmanagergroup.fragment.SlideFragment;
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.item_4:
                 startActivity(new Intent(MainActivity.this, BannerActivity.class));
+                break;
+            case R.id.item_5:
+                startActivity(new Intent(MainActivity.this, ViewPagerLayoutManagerActivity.class));
                 break;
 
         }
