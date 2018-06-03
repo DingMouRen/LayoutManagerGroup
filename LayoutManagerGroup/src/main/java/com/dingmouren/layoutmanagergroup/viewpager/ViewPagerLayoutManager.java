@@ -17,6 +17,8 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
     private static final String TAG = "ViewPagerLayoutManager";
     private PagerSnapHelper mPagerSnapHelper;
     private OnViewPagerListener mOnViewPagerListener;
+    private RecyclerView mRecyclerView;
+    private int mDy;
 
     public ViewPagerLayoutManager(Context context, int orientation) {
         super(context, orientation, false);
@@ -36,7 +38,10 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
     public void onAttachedToWindow(RecyclerView view) {
         super.onAttachedToWindow(view);
         mPagerSnapHelper.attachToRecyclerView(view);
+        this.mRecyclerView = view;
+        mRecyclerView.addOnChildAttachStateChangeListener(mChildAttachStateChangeListener);
     }
+
 
     /**
      * 滑动状态的改变
@@ -51,12 +56,9 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
             case RecyclerView.SCROLL_STATE_IDLE:
                 View viewIdle = mPagerSnapHelper.findSnapView(this);
                 int positionIdle = getPosition(viewIdle);
-
-                if (mOnViewPagerListener != null) {
+                if (mOnViewPagerListener != null && getChildCount() == 1) {
                     mOnViewPagerListener.onPageSelected(positionIdle,positionIdle == getItemCount() - 1);
                 }
-
-
                 break;
             case RecyclerView.SCROLL_STATE_DRAGGING:
                 View viewDrag = mPagerSnapHelper.findSnapView(this);
@@ -65,7 +67,6 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
             case RecyclerView.SCROLL_STATE_SETTLING:
                 View viewSettling = mPagerSnapHelper.findSnapView(this);
                 int positionSettling = getPosition(viewSettling);
-                if (mOnViewPagerListener != null) mOnViewPagerListener.onPageRelease(positionSettling);
                 break;
 
         }
@@ -90,6 +91,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
+        this.mDy = dy;
         return super.scrollVerticallyBy(dy, recycler, state);
     }
 
@@ -113,4 +115,21 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
     public void setOnViewPagerListener(OnViewPagerListener listener){
         this.mOnViewPagerListener = listener;
     }
+
+    private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
+        @Override
+        public void onChildViewAttachedToWindow(View view) {
+
+        }
+
+        @Override
+        public void onChildViewDetachedFromWindow(View view) {
+            if (mDy >= 0){
+                if (mOnViewPagerListener != null) mOnViewPagerListener.onPageRelease(true,getPosition(view));
+            }else {
+                if (mOnViewPagerListener != null) mOnViewPagerListener.onPageRelease(false,getPosition(view));
+            }
+
+        }
+    };
 }

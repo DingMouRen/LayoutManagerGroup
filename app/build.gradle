@@ -35,5 +35,4 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     implementation project(':LayoutManagerGroup')
     //    implementation 'com.github.DingMouRen:LayoutManagerGroup:e59c3fa3ca'
-
 }

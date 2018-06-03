@@ -50,8 +50,8 @@ public class ViewPagerLayoutManagerActivity extends AppCompatActivity {
     private void initListener(){
         mLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
             @Override
-            public void onPageRelease(int position) {
-                Log.e(TAG,"释放位置:"+position);
+            public void onPageRelease(boolean isNext,int position) {
+                Log.e(TAG,"释放位置:"+position +" 下一页:"+isNext);
             }
 
             @Override
