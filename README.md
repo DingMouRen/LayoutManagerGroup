@@ -18,7 +18,7 @@
 * 2.添加依赖
 ```
 dependencies {
-	      implementation 'com.github.DingMouRen:LayoutManagerGroup:f68c9712e5'
+	      implementation 'com.github.DingMouRen:LayoutManagerGroup:643fb71c8e'
 	}
 ```
 | EchelonLayoutManager | SkidRightLayoutManager | SlideLayoutManager |
