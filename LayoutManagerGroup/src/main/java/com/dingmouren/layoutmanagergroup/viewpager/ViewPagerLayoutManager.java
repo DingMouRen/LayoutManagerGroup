@@ -19,7 +19,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
     private PagerSnapHelper mPagerSnapHelper;
     private OnViewPagerListener mOnViewPagerListener;
     private RecyclerView mRecyclerView;
-    private int mDy;
+    private int mDrift;//位移，用来判断移动方向
 
     public ViewPagerLayoutManager(Context context, int orientation) {
         super(context, orientation, false);
@@ -79,8 +79,8 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public void onLayoutCompleted(RecyclerView.State state) {
-
         super.onLayoutCompleted(state);
+        if (mOnViewPagerListener != null) mOnViewPagerListener.onLayoutComplete();
     }
 
     /**
@@ -92,7 +92,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        this.mDy = dy;
+        this.mDrift = dy;
         return super.scrollVerticallyBy(dy, recycler, state);
     }
 
@@ -106,6 +106,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
+        this.mDrift = dx;
         return super.scrollHorizontallyBy(dx, recycler, state);
     }
 
@@ -125,7 +126,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
 
         @Override
         public void onChildViewDetachedFromWindow(View view) {
-            if (mDy >= 0){
+            if (mDrift >= 0){
                 if (mOnViewPagerListener != null) mOnViewPagerListener.onPageRelease(true,getPosition(view));
             }else {
                 if (mOnViewPagerListener != null) mOnViewPagerListener.onPageRelease(false,getPosition(view));
