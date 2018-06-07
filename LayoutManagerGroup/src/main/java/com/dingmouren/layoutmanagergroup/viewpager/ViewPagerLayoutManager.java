@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 /**
  * Created by 钉某人
@@ -33,7 +34,9 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
 
     private void init() {
         mPagerSnapHelper = new PagerSnapHelper();
+
     }
+
 
     @Override
     public void onAttachedToWindow(RecyclerView view) {
@@ -43,6 +46,11 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
         mRecyclerView.addOnChildAttachStateChangeListener(mChildAttachStateChangeListener);
     }
 
+    @Override
+    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        super.onLayoutChildren(recycler, state);
+//
+    }
 
     /**
      * 滑动状态的改变
@@ -73,15 +81,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
         }
     }
 
-    /**
-     * 布局完成后调用
-     * @param state
-     */
-    @Override
-    public void onLayoutCompleted(RecyclerView.State state) {
-        super.onLayoutCompleted(state);
-        if (mOnViewPagerListener != null) mOnViewPagerListener.onLayoutComplete();
-    }
+
 
     /**
      * 监听竖直方向的相对偏移量
@@ -121,7 +121,9 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
     private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
         public void onChildViewAttachedToWindow(View view) {
-
+            if (mOnViewPagerListener != null && getChildCount() == 1) {
+                mOnViewPagerListener.onInitComplete();
+            }
         }
 
         @Override

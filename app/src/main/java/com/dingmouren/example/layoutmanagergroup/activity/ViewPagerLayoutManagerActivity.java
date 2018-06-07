@@ -53,6 +53,13 @@ public class ViewPagerLayoutManagerActivity extends AppCompatActivity {
 
     private void initListener(){
         mLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
+
+            @Override
+            public void onInitComplete() {
+                Log.e(TAG,"onInitComplete");
+                playVideo(0);
+            }
+
             @Override
             public void onPageRelease(boolean isNext,int position) {
                 Log.e(TAG,"释放位置:"+position +" 下一页:"+isNext);
@@ -71,10 +78,6 @@ public class ViewPagerLayoutManagerActivity extends AppCompatActivity {
                 playVideo(0);
             }
 
-            @Override
-            public void onLayoutComplete() {
-                playVideo(0);
-            }
 
         });
     }
@@ -91,7 +94,6 @@ public class ViewPagerLayoutManagerActivity extends AppCompatActivity {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 mediaPlayer[0] = mp;
-                Log.e(TAG,"onInfo");
                 mp.setLooping(true);
                 imgThumb.animate().alpha(0).setDuration(200).start();
                 return false;
@@ -100,7 +102,6 @@ public class ViewPagerLayoutManagerActivity extends AppCompatActivity {
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                Log.e(TAG,"onPrepared");
 
             }
         });
@@ -111,12 +112,10 @@ public class ViewPagerLayoutManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (videoView.isPlaying()){
-                    Log.e(TAG,"isPlaying:"+videoView.isPlaying());
                     imgPlay.animate().alpha(1f).start();
                     videoView.pause();
                     isPlaying = false;
                 }else {
-                    Log.e(TAG,"isPlaying:"+videoView.isPlaying());
                     imgPlay.animate().alpha(0f).start();
                     videoView.start();
                     isPlaying = true;
