@@ -21,6 +21,7 @@ dependencies {
 	     implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
 	}
 ```
+注意：不建议直接用到项目中，这个开源项目旨在分享。
 | EchelonLayoutManager | SkidRightLayoutManager | SlideLayoutManager |
 | :----: | :---:| :---:|
 |![img1](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img1.gif) |  ![img2](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img2.gif)| ![img3](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img3.gif)|
