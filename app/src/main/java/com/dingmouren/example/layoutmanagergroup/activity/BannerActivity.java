@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dingmouren.example.layoutmanagergroup.MyApplication;
 import com.dingmouren.example.layoutmanagergroup.R;
+import com.dingmouren.example.layoutmanagergroup.widget.InterceptRelativeLayout;
 import com.dingmouren.layoutmanagergroup.banner.BannerLayoutManager;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import static com.dingmouren.example.layoutmanagergroup.R.drawable.circle_red;
 public class BannerActivity extends AppCompatActivity {
     private static final String TAG = "BannerActivity";
     private ImageView mImg1,mImg2,mImg3,mImg4,mLastImg,mCurrentImg;
+    private InterceptRelativeLayout mRelaIntercept1;
     private List<ImageView> mImgList = new ArrayList<>();
     private int mLastSelectPosition = 0;
     private int mCurrentSelect = 0;
@@ -41,6 +44,8 @@ public class BannerActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mRelaIntercept1 = findViewById(R.id.rela_intercept_1);
+        mRelaIntercept1.setIntercept(false);
         mImg1 =  findViewById(R.id.img_1);
         mImg2 =  findViewById(R.id.img_2);
         mImg3 =  findViewById(R.id.img_3);

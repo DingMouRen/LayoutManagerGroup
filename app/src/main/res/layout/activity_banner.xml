@@ -19,7 +19,8 @@
         android:textStyle="bold" />
 
     <!--广告图轮播-->
-    <RelativeLayout
+    <com.dingmouren.example.layoutmanagergroup.widget.InterceptRelativeLayout
+        android:id="@+id/rela_intercept_1"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         >
@@ -65,11 +66,11 @@
                 android:layout_marginLeft="5dp"
                 />
         </LinearLayout>
-    </RelativeLayout>
+    </com.dingmouren.example.layoutmanagergroup.widget.InterceptRelativeLayout>
 
 
     <!--消息轮播-->
-    <RelativeLayout
+    <com.dingmouren.example.layoutmanagergroup.widget.InterceptRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -93,5 +94,5 @@
             android:textSize="20sp"
             android:textColor="@android:color/black"
             />
-    </RelativeLayout>
+    </com.dingmouren.example.layoutmanagergroup.widget.InterceptRelativeLayout>
 </LinearLayout>

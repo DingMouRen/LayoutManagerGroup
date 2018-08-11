@@ -15,10 +15,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.RelativeLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -77,6 +79,7 @@ public  class BannerLayoutManager extends LinearLayoutManager{
         mLinearSnapHelper.attachToRecyclerView(view);
     }
 
+
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
         LinearSmoothScroller smoothScroller =
@@ -91,6 +94,8 @@ public  class BannerLayoutManager extends LinearLayoutManager{
         smoothScroller.setTargetPosition(position);
         startSmoothScroll(smoothScroller);
     }
+
+
 
 
     @Override
