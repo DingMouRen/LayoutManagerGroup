@@ -30,7 +30,7 @@ dependencies {
 |  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)|![img5](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img5.gif)|![img6](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img6.gif)|
 
 #### 未完待你续...
-注意：不建议直接用到项目中，这个开源项目旨在分享。
+
 
 ## License
 ```
