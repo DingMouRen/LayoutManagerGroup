@@ -1,17 +1,9 @@
 package com.dingmouren.layoutmanagergroup.skidright;
 
-import android.graphics.PointF;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-
 import com.dingmouren.layoutmanagergroup.echelon.ItemViewInfo;
-
 import java.util.ArrayList;
 
 /**
@@ -24,10 +16,15 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
     private int mItemViewWidth;
     private int mItemViewHeight;
     private int mScrollOffset = Integer.MAX_VALUE;
-    private float mItemHeightWidthRatio;
-    private float mScale;
+    private final float mItemHeightWidthRatio;
+    private final float mScale;
     private int mItemCount;
-    private SkidRightSnapHelper mSkidRightSnapHelper;
+    private final SkidRightSnapHelper mSkidRightSnapHelper;
+
+    /**
+     * Sets true to scroll layout in left direction.
+     */
+    public boolean isReverseDirection = false;
 
     public SkidRightLayoutManager(float itemHeightWidthRatio, float scale) {
         this.mItemHeightWidthRatio = itemHeightWidthRatio;
@@ -52,12 +49,12 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
             if (mScrollOffset % mItemViewWidth == 0) {
                 return RecyclerView.NO_POSITION;
             }
-            float position = mScrollOffset * 1.0f / mItemViewWidth;
-            return convert2AdapterPosition((int) (direction > 0 ? position + fixValue : position + (1 - fixValue)) - 1);
+            float itemPosition = position();
+            int layoutPosition = (int) (direction > 0 ? itemPosition + fixValue : itemPosition + (1 - fixValue)) - 1;
+            return convert2AdapterPosition(layoutPosition);
         }
         return RecyclerView.NO_POSITION;
     }
-
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
@@ -73,27 +70,48 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
         fill(recycler);
     }
 
+    private float position() {
+        return isReverseDirection ?
+                (mScrollOffset + mItemCount * mItemViewWidth) * 1.0F/ mItemViewWidth :
+                mScrollOffset * 1.0F / mItemViewWidth;
+    }
+
     public void fill(RecyclerView.Recycler recycler) {
-        int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemViewWidth);
-        int bottomItemVisibleSize = mScrollOffset % mItemViewWidth;
-        final float offsetPercent = bottomItemVisibleSize * 1.0f / mItemViewWidth;
+        int bottomItemPosition = (int) Math.floor(position());
         final int space = getHorizontalSpace();
+        final int bottomItemVisibleSize = isReverseDirection ?
+                ((mItemCount - 1) * mItemViewWidth + mScrollOffset) % mItemViewWidth :
+                mScrollOffset % mItemViewWidth;
+        final float offsetPercent = bottomItemVisibleSize * 1.0f / mItemViewWidth;
+
+        int remainSpace = isReverseDirection ? 0 : space - mItemViewWidth;
+
+        final int baseOffsetSpace = isReverseDirection ?
+                mItemViewWidth :
+                getHorizontalSpace() - mItemViewWidth;
 
         ArrayList<ItemViewInfo> layoutInfos = new ArrayList<>();
-        for (int i = bottomItemPosition - 1, j = 1, remainSpace = space - mItemViewWidth;
+        for (int i = bottomItemPosition - 1, j = 1;
              i >= 0; i--, j++) {
-            double maxOffset = (getHorizontalSpace() - mItemViewWidth) / 2 * Math.pow(mScale, j);
-            int start = (int) (remainSpace - offsetPercent * maxOffset);
-            ItemViewInfo info = new ItemViewInfo(start,
-                    (float) (Math.pow(mScale, j - 1) * (1 - offsetPercent * (1 - mScale))),
-                    offsetPercent,
-                    start * 1.0f / space
-            );
+            double maxOffset = baseOffsetSpace / 2 * Math.pow(mScale, j);
+
+            float adjustedPercent = isReverseDirection ? -offsetPercent : +offsetPercent;
+            int start = (int) (remainSpace - adjustedPercent * maxOffset);
+
+            float scaleXY = (float) (Math.pow(mScale, j - 1) * (1 - offsetPercent * (1 - mScale)));
+            float percent = start * 1.0f / space;
+            ItemViewInfo info = new ItemViewInfo(start, scaleXY, offsetPercent, percent);
+
             layoutInfos.add(0, info);
 
-            remainSpace -= maxOffset;
-            if (remainSpace <= 0) {
-                info.setTop((int) (remainSpace + maxOffset));
+            double delta = isReverseDirection ? maxOffset : -maxOffset;
+            remainSpace += delta;
+
+            boolean isOutOfSpace = isReverseDirection ?
+                    remainSpace > getHorizontalSpace() :
+                    remainSpace <= 0;
+            if (isOutOfSpace) {
+                info.setTop((int) (remainSpace - delta));
                 info.setPositionOffset(0);
                 info.setLayoutPercent(info.getTop() / space);
                 info.setScaleXY( (float) Math.pow(mScale, j - 1));
@@ -102,10 +120,14 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
         }
 
         if (bottomItemPosition < mItemCount) {
-            final int start = space - bottomItemVisibleSize;
-            layoutInfos.add(new ItemViewInfo(start, 1.0f,
-                    bottomItemVisibleSize * 1.0f / mItemViewWidth, start * 1.0f / space).
-                    setIsBottom());
+            final int start = isReverseDirection ?
+                    bottomItemVisibleSize - mItemViewWidth :
+                    space - bottomItemVisibleSize;
+            layoutInfos.add(
+                    new ItemViewInfo(start,
+                            1.0f,
+                            offsetPercent,
+                            start * 1.0f / space).setIsBottom());
         } else {
             bottomItemPosition -= 1;
         }
@@ -125,7 +147,8 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
         detachAndScrapAttachedViews(recycler);
 
         for (int i = 0; i < layoutCount; i++) {
-            fillChild(recycler.getViewForPosition(convert2AdapterPosition(startPos + i)), layoutInfos.get(i));
+            int position = convert2AdapterPosition(startPos + i);
+            fillChild(recycler.getViewForPosition(position), layoutInfos.get(i));
         }
     }
 
@@ -134,9 +157,12 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
         measureChildWithExactlySize(view);
         final int scaleFix = (int) (mItemViewWidth * (1 - layoutInfo.getScaleXY()) / 2);
 
-        int top = (int) getPaddingTop();
-        layoutDecoratedWithMargins(view, layoutInfo.getTop() - scaleFix, top
-                , layoutInfo.getTop() + mItemViewWidth - scaleFix, top + mItemViewHeight);
+        int left = layoutInfo.getTop() - scaleFix;
+        int top = getPaddingTop();
+        int right = layoutInfo.getTop() + mItemViewWidth - scaleFix;
+        int bottom = top + mItemViewHeight;
+
+        layoutDecoratedWithMargins(view, left, top, right, bottom);
         ViewCompat.setScaleX(view, layoutInfo.getScaleXY());
         ViewCompat.setScaleY(view, layoutInfo.getScaleXY());
     }
@@ -151,25 +177,29 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
     }
 
     private int makeScrollOffsetWithinRange(int scrollOffset) {
-        return Math.min(Math.max(mItemViewWidth, scrollOffset), mItemCount * mItemViewWidth);
+        if (isReverseDirection) {
+            return Math.max(Math.min(0, scrollOffset), -(mItemCount - 1) * mItemViewWidth);
+        } else {
+            return Math.min(Math.max(mItemViewWidth, scrollOffset), mItemCount * mItemViewWidth);
+        }
     }
-
-
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        int pendingScrollOffset = mScrollOffset + dx;
+        int delta = isReverseDirection ? -dx : dx;
+        int pendingScrollOffset = mScrollOffset + delta;
         mScrollOffset = makeScrollOffsetWithinRange(pendingScrollOffset);
         fill(recycler);
-        return mScrollOffset - pendingScrollOffset + dx;
+        return mScrollOffset - pendingScrollOffset + delta;
     }
 
-
     public int calculateDistanceToPosition(int targetPos) {
+        if (isReverseDirection)  {
+            return mItemViewWidth * targetPos + mScrollOffset;
+        }
         int pendingScrollOffset = mItemViewWidth * (convert2LayoutPosition(targetPos) + 1);
         return pendingScrollOffset - mScrollOffset;
     }
-
 
     @Override
     public void scrollToPosition(int position) {
@@ -178,7 +208,6 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
             requestLayout();
         }
     }
-
 
     @Override
     public boolean canScrollHorizontally() {
@@ -200,7 +229,4 @@ public class SkidRightLayoutManager extends RecyclerView.LayoutManager {
     public int getHorizontalSpace() {
         return getWidth() - getPaddingLeft() - getPaddingRight();
     }
-
-
-
 }
