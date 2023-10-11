@@ -29,6 +29,8 @@ dependencies {
 | PickerLayoutManager | BannerLayoutManager | ViewPagerLayoutManager |
 | :---:| :---:|:---:|
 |  ![img4](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img4.gif)|![img5](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img5.gif)|![img6](https://github.com/DingMouRen/LayoutManagerGroup/raw/master/picture/img6.gif)|
+
+<br>
 此项目已暂停维护。
 ## License
 ```
